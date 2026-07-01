@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3886693254387106485}
   - component: {fileID: 1688770670443319715}
   - component: {fileID: 3560706639513176025}
+  - component: {fileID: 7627724813123443023}
   m_Layer: 0
   m_Name: plastic-water-bottle
   m_TagString: Untagged
@@ -153,3 +154,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52697dd4c3261b24d9fd55c2b68b90cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupObject
+--- !u!114 &7627724813123443023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8318386336663071593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ccbd78032d0724c80e480dfb37e68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WasteItem
+  itemName: Plastic Bottle
+  category: Secret
+  decomposition: Secret
+  tip: Secret
+  description: Secret
