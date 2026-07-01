@@ -10,26 +10,23 @@ public class PlayerPickup : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Debug.Log("E key pressed!");
-
-            // Drop object if already holding one
+            // If already holding an object, drop it
             if (heldObject != null)
             {
-                Debug.Log("Dropping " + heldObject.name);
+                Debug.Log("Dropped: " + heldObject.name);
 
                 heldObject.Drop();
                 heldObject = null;
                 return;
             }
 
-            // Try to pick up an object
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance))
             {
-                Debug.Log("Hit: " + hit.collider.name);
+                Debug.Log("Clicked: " + hit.collider.name);
 
                 PickupObject pickup = hit.collider.GetComponent<PickupObject>();
 
@@ -42,12 +39,12 @@ public class PlayerPickup : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Object has no PickupObject script.");
+                    Debug.Log("This object is not pickable.");
                 }
             }
             else
             {
-                Debug.Log("Raycast hit nothing.");
+                Debug.Log("Clicked on nothing.");
             }
         }
     }
