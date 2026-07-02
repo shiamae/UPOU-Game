@@ -3,87 +3,92 @@ using UnityEngine.InputSystem;
 
 public class PlayerPickup : MonoBehaviour
 {
-    [Header("Pickup Settings")]
-    public float pickupDistance = 10f;
+    public float interactionDistance = 5f;
     public Transform holdPoint;
 
     private PickupObject heldObject;
+
     private WasteInfoUI wasteInfoUI;
 
-    private void Start()
+    void Start()
     {
-        // Find the UI manager in the scene
         wasteInfoUI = FindAnyObjectByType<WasteInfoUI>();
-
-        if (wasteInfoUI == null)
-        {
-            Debug.LogWarning("No WasteInfoUI found in the scene!");
-        }
     }
 
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (!Mouse.current.leftButton.wasPressedThisFrame)
+            return;
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f,.5f));
+
+        if (!Physics.Raycast(ray,out RaycastHit hit,interactionDistance))
+            return;
+
+        //---------------------------------------------------
+        // PICKUP
+        //---------------------------------------------------
+
+        if (heldObject == null)
         {
-            // Drop the currently held object
-            if (heldObject != null)
+            PickupObject pickup = hit.collider.GetComponent<PickupObject>();
+
+            if (pickup != null)
             {
-                Debug.Log("Dropped: " + heldObject.name);
+                pickup.PickUp(holdPoint);
 
-                heldObject.Drop();
+                heldObject = pickup;
 
-                // Hide the information panel
-                if (wasteInfoUI != null)
-                {
-                    wasteInfoUI.HideInfo();
-                }
+                WasteItem waste = pickup.GetComponent<WasteItem>();
 
-                heldObject = null;
+                if(wasteInfoUI!=null)
+                    wasteInfoUI.ShowInfo(waste);
+
                 return;
             }
+        }
 
-            // Raycast from the mouse cursor
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        //---------------------------------------------------
+        // DISPOSE
+        //---------------------------------------------------
 
-            Debug.DrawRay(ray.origin, ray.direction * pickupDistance, Color.red, 2f);
+        if (heldObject != null)
+        {
+            TrashCan trashCan = hit.collider.GetComponent<TrashCan>();
 
-            if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance))
+            if (trashCan != null)
             {
-                Debug.Log("Clicked: " + hit.collider.name);
+                WasteItem waste = heldObject.GetComponent<WasteItem>();
 
-                PickupObject pickup = hit.collider.GetComponent<PickupObject>();
-
-                if (pickup != null)
+                if(waste.category == trashCan.acceptedCategory)
                 {
-                    Debug.Log("Picked up: " + pickup.name);
+                    Debug.Log("Correct Bin! +10");
 
-                    pickup.PickUp(holdPoint);
-                    heldObject = pickup;
+                    heldObject.Dispose();
 
-                    // Display waste information
-                    WasteItem wasteItem = pickup.GetComponent<WasteItem>();
+                    heldObject = null;
 
-                    if (wasteItem != null)
-                    {
-                        if (wasteInfoUI != null)
-                        {
-                            wasteInfoUI.ShowInfo(wasteItem);
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("This pickup object has no WasteItem component.");
-                    }
+                    wasteInfoUI.HideInfo();
                 }
                 else
                 {
-                    Debug.Log("This object is not pickable.");
+                    Debug.Log("Wrong Bin!");
+
+                    Debug.Log("Correct Category: " + waste.category);
                 }
+
+                return;
             }
-            else
-            {
-                Debug.Log("Clicked on nothing.");
-            }
+
+            //---------------------------------------------------
+            // DROP ON GROUND
+            //---------------------------------------------------
+
+            heldObject.Release();
+
+            heldObject = null;
+
+            wasteInfoUI.HideInfo();
         }
     }
 }

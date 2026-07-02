@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8318386336663071593}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.74347, y: -0, z: 1.2293}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 200, y: 200, z: 200}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5734440725852765814
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -154,6 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52697dd4c3261b24d9fd55c2b68b90cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupObject
+  holdPosition: {x: 0.1, y: 0.02, z: 0.2}
+  holdRotation: {x: 0, y: 0, z: 0}
+  holdScale: {x: 80, y: 80, z: 80}
 --- !u!114 &7627724813123443023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +170,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Bottle
-  category: Secret
-  decomposition: Secret
-  tip: Secret
-  description: Secret
+  category: 0
+  decomposition: ~450 years
+  tip: Reuse as a plant container, refill before disposing, or recycle through a
+    materials recovery facility.
+  description: Plastic bottles are commonly made from PET plastic and can be processed
+    into new bottles, clothing fibers, or other plastic products.

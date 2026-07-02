@@ -2,17 +2,40 @@ using UnityEngine;
 
 public class TrashCan : MonoBehaviour
 {
+    [Header("Accepted Waste")]
+    public WasteCategory acceptedCategory;
+
+    [Header("Scoring")]
+    public int correctPoints = 10;
+    public int wrongPoints = -5;
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " entered the trash can.");
+        PickupObject pickup = other.GetComponent<PickupObject>();
 
-        PickupObject bottle = other.GetComponent<PickupObject>();
+        // Ignore objects that aren't being held
+        if (pickup == null || !pickup.IsHeld)
+            return;
 
-        if (bottle != null)
+        WasteItem waste = other.GetComponent<WasteItem>();
+
+        if (waste == null)
+            return;
+
+        // Correct bin
+        if (waste.category == acceptedCategory)
         {
-            Debug.Log("Bottle successfully thrown away!");
+            Debug.Log($"+{correctPoints} points! Correctly disposed of {waste.itemName}.");
 
-            Destroy(other.gameObject);
+            pickup.Dispose();
+        }
+        // Wrong bin
+        else
+        {
+            Debug.Log($"{wrongPoints} points! Wrong trash can for {waste.itemName}.");
+
+            // Don't destroy it.
+            // The player is still holding the object and can try another bin.
         }
     }
 }

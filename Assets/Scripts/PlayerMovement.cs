@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Mouse Look")]
     public float lookSpeed = 100f;
-    public float lookXLimit = 45f;
+    public float lookXLimit = 85f;
 
     [Header("Crouch")]
     public float defaultHeight = 2f;
@@ -30,8 +30,8 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()

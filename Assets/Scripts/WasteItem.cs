@@ -5,8 +5,7 @@ public class WasteItem : MonoBehaviour
     [Header("Basic Information")]
     public string itemName;
 
-    public string category;
-
+    public WasteCategory category;
     public string decomposition;
 
     [TextArea(2, 4)]
