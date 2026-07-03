@@ -18,6 +18,7 @@ public class PickupObject : MonoBehaviour
     public Vector3 holdScale = Vector3.one;
 
     public bool IsHeld { get; private set; }
+    public bool IsDisposed { get; private set; }
 
     private void Awake()
     {

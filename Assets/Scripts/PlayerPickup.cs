@@ -3,14 +3,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerPickup : MonoBehaviour
 {
-    public float interactionDistance = 5f;
+    [Header("Pickup Settings")]
+    public float interactionDistance = 10f;
     public Transform holdPoint;
 
     private PickupObject heldObject;
-
     private WasteInfoUI wasteInfoUI;
 
-    void Start()
+    private void Start()
     {
         wasteInfoUI = FindAnyObjectByType<WasteInfoUI>();
     }
@@ -20,75 +20,69 @@ public class PlayerPickup : MonoBehaviour
         if (!Mouse.current.leftButton.wasPressedThisFrame)
             return;
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f,.5f));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 
-        if (!Physics.Raycast(ray,out RaycastHit hit,interactionDistance))
-            return;
-
-        //---------------------------------------------------
-        // PICKUP
-        //---------------------------------------------------
-
-        if (heldObject == null)
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
         {
-            PickupObject pickup = hit.collider.GetComponent<PickupObject>();
-
-            if (pickup != null)
-            {
-                pickup.PickUp(holdPoint);
-
-                heldObject = pickup;
-
-                WasteItem waste = pickup.GetComponent<WasteItem>();
-
-                if(wasteInfoUI!=null)
-                    wasteInfoUI.ShowInfo(waste);
-
-                return;
-            }
+            Debug.Log("Clicked on nothing.");
+            return;
         }
 
-        //---------------------------------------------------
-        // DISPOSE
-        //---------------------------------------------------
-
+        // ===============================
+        // If holding something
+        // ===============================
         if (heldObject != null)
         {
             TrashCan trashCan = hit.collider.GetComponent<TrashCan>();
 
             if (trashCan != null)
             {
-                WasteItem waste = heldObject.GetComponent<WasteItem>();
+                trashCan.TryDispose(heldObject);
 
-                if(waste.category == trashCan.acceptedCategory)
+                // If the object was disposed, clear the reference and hide the UI
+                if (heldObject != null && heldObject.IsDisposed)
                 {
-                    Debug.Log("Correct Bin! +10");
-
-                    heldObject.Dispose();
-
                     heldObject = null;
 
-                    wasteInfoUI.HideInfo();
-                }
-                else
-                {
-                    Debug.Log("Wrong Bin!");
-
-                    Debug.Log("Correct Category: " + waste.category);
+                    if (wasteInfoUI != null)
+                    {
+                        wasteInfoUI.HideInfo();
+                    }
                 }
 
                 return;
             }
 
-            //---------------------------------------------------
-            // DROP ON GROUND
-            //---------------------------------------------------
-
+            // Click anywhere else = drop
             heldObject.Release();
+
+            if (wasteInfoUI != null)
+                wasteInfoUI.HideInfo();
 
             heldObject = null;
 
-            wasteInfoUI.HideInfo();
+            return;
+        }
+
+        // ===============================
+        // Pick up an object
+        // ===============================
+        PickupObject pickup = hit.collider.GetComponent<PickupObject>();
+
+        if (pickup != null)
+        {
+            pickup.PickUp(holdPoint);
+
+            heldObject = pickup;
+
+            WasteItem waste = pickup.GetComponent<WasteItem>();
+
+            if (waste != null && wasteInfoUI != null)
+            {
+                wasteInfoUI.ShowInfo(waste);
+            }
+
+            Debug.Log("Picked up " + pickup.name);
         }
     }
 }

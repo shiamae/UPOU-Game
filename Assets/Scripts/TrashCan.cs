@@ -5,37 +5,44 @@ public class TrashCan : MonoBehaviour
     [Header("Accepted Waste")]
     public WasteCategory acceptedCategory;
 
-    [Header("Scoring")]
+    [Header("Points")]
     public int correctPoints = 10;
     public int wrongPoints = -5;
 
-    private void OnTriggerEnter(Collider other)
+    public void TryDispose(PickupObject pickup)
     {
-        PickupObject pickup = other.GetComponent<PickupObject>();
-
-        // Ignore objects that aren't being held
-        if (pickup == null || !pickup.IsHeld)
+        if (pickup == null)
             return;
 
-        WasteItem waste = other.GetComponent<WasteItem>();
+        WasteItem waste = pickup.GetComponent<WasteItem>();
 
         if (waste == null)
+        {
+            Debug.LogWarning("This object has no WasteItem component.");
             return;
+        }
 
-        // Correct bin
         if (waste.category == acceptedCategory)
         {
-            Debug.Log($"+{correctPoints} points! Correctly disposed of {waste.itemName}.");
+            Debug.Log($"Correct bin! +{correctPoints} points");
+
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddPoints(correctPoints);
+            }
 
             pickup.Dispose();
         }
-        // Wrong bin
         else
         {
-            Debug.Log($"{wrongPoints} points! Wrong trash can for {waste.itemName}.");
+            Debug.Log($"Wrong bin! {wrongPoints} points");
 
-            // Don't destroy it.
-            // The player is still holding the object and can try another bin.
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddPoints(wrongPoints);
+            }
+
+            // Keep holding the object.
         }
     }
 }
