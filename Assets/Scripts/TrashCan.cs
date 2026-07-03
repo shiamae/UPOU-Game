@@ -22,51 +22,55 @@ public class TrashCan : MonoBehaviour
             return;
         }
 
+        //=========================
         // Correct bin
+        //=========================
         if (waste.category == acceptedCategory)
         {
             Debug.Log($"Correct bin! +{correctPoints} points");
 
-            // Add score
+            // Add points
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddPoints(correctPoints);
             }
 
-            // Show temporary result popup
+            // Hide the hint popup
             if (GameUIManager.Instance != null)
             {
-                GameUIManager.Instance.ShowResult(true);
-
-                // Hide the hint popup
                 GameUIManager.Instance.HideHint();
 
-                // Show the educational popup
-                GameUIManager.Instance.ShowEducation(waste);
+                // Show result popup.
+                // GameUIManager will later show the education popup
+                // and dispose of the object after it is closed.
+                pickup.Hide();
+                GameUIManager.Instance.ShowResult(true, waste, pickup);
             }
 
-            // Destroy the object
-            pickup.Dispose();
+            // IMPORTANT:
+            // Do NOT call pickup.Dispose() here.
         }
+
+        //=========================
         // Wrong bin
+        //=========================
         else
         {
             Debug.Log($"Wrong bin! {wrongPoints} points");
 
-            // Subtract score
+            // Subtract points
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddPoints(wrongPoints);
             }
 
-            // Show temporary result popup
+            // Show wrong popup only.
             if (GameUIManager.Instance != null)
             {
-                GameUIManager.Instance.ShowResult(false);
+                GameUIManager.Instance.ShowResult(false, null, null);
             }
 
-            // Do NOT destroy the object.
-            // The player continues holding it and can try another bin.
+            // Keep holding the object.
         }
     }
 }

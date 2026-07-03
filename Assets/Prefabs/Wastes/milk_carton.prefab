@@ -165,9 +165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Milk Carton
   category: 0
-  decomposition: ~5 years for the paper layer to break down, but the plastic lining
-    can persist far longer
-  tip: '3R Tip: Rinse and flatten before disposal; check local guidelines since carton
-    recyclability is one of the most location-dependent categories.'
-  description: A carton used for milk and other beverages. It is usually made from
-    layers of paperboard, plastic, and sometimes aluminum.
+  hintImage: {fileID: 21300000, guid: 3d11c44e2e0d72e4e8f6397a30424339, type: 3}
+  educationImage: {fileID: 21300000, guid: 1771c77fc0231434fbb4e1f0d6718a74, type: 3}

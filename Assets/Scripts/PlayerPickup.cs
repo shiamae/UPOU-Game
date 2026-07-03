@@ -11,6 +11,10 @@ public class PlayerPickup : MonoBehaviour
 
     void Update()
     {
+        // Don't allow interaction while the education popup is open
+        if (Time.timeScale == 0f)
+            return;
+
         if (!Mouse.current.leftButton.wasPressedThisFrame)
             return;
 
@@ -27,15 +31,18 @@ public class PlayerPickup : MonoBehaviour
         //================================================
         if (heldObject != null)
         {
-            // Check if player clicked on a trash can
             TrashCan trashCan = hit.collider.GetComponent<TrashCan>();
 
+            // Player clicked a trash can
             if (trashCan != null)
             {
                 trashCan.TryDispose(heldObject);
 
-                // Object was disposed
-                if (heldObject != null && heldObject.IsDisposed)
+                // If the object has been hidden/disposed,
+                // stop treating it as the held object.
+                if (heldObject == null ||
+                    heldObject.IsDisposed ||
+                    !heldObject.gameObject.activeInHierarchy)
                 {
                     heldObject = null;
                 }
@@ -43,13 +50,11 @@ public class PlayerPickup : MonoBehaviour
                 return;
             }
 
-            // Otherwise, drop the object
+            // Player clicked somewhere else -> drop the object
             heldObject.Release();
 
             if (GameUIManager.Instance != null)
-            {
                 GameUIManager.Instance.HideHint();
-            }
 
             heldObject = null;
 
@@ -71,11 +76,18 @@ public class PlayerPickup : MonoBehaviour
 
             if (waste != null && GameUIManager.Instance != null)
             {
-                // Show the hint popup
                 GameUIManager.Instance.ShowHint(waste);
             }
 
             Debug.Log("Picked up " + pickup.name);
         }
+    }
+
+    /// <summary>
+    /// Called by GameUIManager after the education popup closes.
+    /// </summary>
+    public void ClearHeldObject()
+    {
+        heldObject = null;
     }
 }

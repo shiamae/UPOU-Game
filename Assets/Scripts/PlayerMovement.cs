@@ -36,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+
         HandleMovement();
         HandleMouseLook();
     }

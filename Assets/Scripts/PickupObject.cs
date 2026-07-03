@@ -86,4 +86,26 @@ public class PickupObject : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    public void Hide()
+{
+    IsHeld = false;
+
+    // Detach from the player's hand
+    transform.SetParent(null);
+
+    // Disable physics
+    rb.isKinematic = true;
+    col.enabled = false;
+
+    // Hide all renderers on this object
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+    foreach (Renderer r in renderers)
+    {
+        r.enabled = false;
+    }
+
+    Debug.Log($"{name} hidden.");
+}
 }

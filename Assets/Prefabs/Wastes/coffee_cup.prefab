@@ -149,11 +149,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Coffee Cup
   category: 2
-  decomposition: Up to 30 years due to the plastic lining slowing breakdown
-  tip: "3R Tip: Bring a reusable cup or tumbler \u2014 many caf\xE9s offer discounts
-    for doing so, making this a Reduce habit with a direct personal incentive."
-  description: A disposable coffee cup is usually made of paper lined with a thin
-    layer of plastic, making it difficult to recycle through regular paper recycling.
+  hintImage: {fileID: 21300000, guid: c86d15ef9d617a644bb2d013c5371691, type: 3}
+  educationImage: {fileID: 21300000, guid: 09d9baf938c5bfd479852c159465beda, type: 3}
 --- !u!114 &7222788345869913559
 MonoBehaviour:
   m_ObjectHideFlags: 0

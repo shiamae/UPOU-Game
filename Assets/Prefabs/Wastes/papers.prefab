@@ -163,10 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Papers
   category: 0
-  decomposition: "2\u20136 weeks"
-  tip: '3R Tip: Reuse for notes or packaging before recycling; recycled paper uses
-    significantly less water and energy than producing new paper.
-
-'
-  description: aper is commonly used for writing, printing, packaging, and other
-    everyday purposes. Clean and dry paper can be recycled into new paper products.
+  hintImage: {fileID: 21300000, guid: 1d9b786b30d7acd4bb95430d3dd53281, type: 3}
+  educationImage: {fileID: 21300000, guid: 7aaae207a20fcaa42803a821e90bf59d, type: 3}

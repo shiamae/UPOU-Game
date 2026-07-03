@@ -171,5 +171,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Bottle
   category: 0
-  hintImage: {fileID: 21300000, guid: 85ae023d9965c2643a2b645180fc3203, type: 3}
-  educationImage: {fileID: 21300000, guid: 651587a3df0936a4ea7a2ab27d8b0373, type: 3}
+  hintImage: {fileID: 21300000, guid: fd576d6ae7a2c1b4ab000cefd9aea318, type: 3}
+  educationImage: {fileID: 21300000, guid: c9e13060ad482fe4e9c4650951459b9d, type: 3}

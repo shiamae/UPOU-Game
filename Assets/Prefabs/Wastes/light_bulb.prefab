@@ -163,6 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Light Bulb
   category: 3
-  decomposition: 
-  tip: 
-  description: 
+  hintImage: {fileID: 21300000, guid: 6ec4038611c2c7a43891a8b8ac3c8578, type: 3}
+  educationImage: {fileID: 21300000, guid: 08867f0ae42be70448aacf1dd458bd41, type: 3}
