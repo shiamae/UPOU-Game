@@ -171,8 +171,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Bottle
   category: 0
-  decomposition: ~450 years
-  tip: Reuse as a plant container, refill before disposing, or recycle through a
-    materials recovery facility.
-  description: Plastic bottles are commonly made from PET plastic and can be processed
-    into new bottles, clothing fibers, or other plastic products.
+  infoImage: {fileID: 21300000, guid: 85ae023d9965c2643a2b645180fc3203, type: 3}
