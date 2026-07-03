@@ -80,6 +80,8 @@ public class PickupObject : MonoBehaviour
 
     public void Dispose()
     {
+        IsDisposed = true;
+
         Debug.Log($"{name} disposed.");
 
         Destroy(gameObject);

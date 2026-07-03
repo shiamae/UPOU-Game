@@ -6,6 +6,7 @@ public class WasteItem : MonoBehaviour
 
     public WasteCategory category;
 
-    [Header("Information Popup")]
-    public Sprite infoImage;
+    [Header("UI Images")]
+    public Sprite hintImage;
+    public Sprite educationImage;
 }

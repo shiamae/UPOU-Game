@@ -22,27 +22,51 @@ public class TrashCan : MonoBehaviour
             return;
         }
 
+        // Correct bin
         if (waste.category == acceptedCategory)
         {
             Debug.Log($"Correct bin! +{correctPoints} points");
 
+            // Add score
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddPoints(correctPoints);
             }
 
+            // Show temporary result popup
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.ShowResult(true);
+
+                // Hide the hint popup
+                GameUIManager.Instance.HideHint();
+
+                // Show the educational popup
+                GameUIManager.Instance.ShowEducation(waste);
+            }
+
+            // Destroy the object
             pickup.Dispose();
         }
+        // Wrong bin
         else
         {
             Debug.Log($"Wrong bin! {wrongPoints} points");
 
+            // Subtract score
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddPoints(wrongPoints);
             }
 
-            // Keep holding the object.
+            // Show temporary result popup
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.ShowResult(false);
+            }
+
+            // Do NOT destroy the object.
+            // The player continues holding it and can try another bin.
         }
     }
 }

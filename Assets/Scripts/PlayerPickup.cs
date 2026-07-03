@@ -8,12 +8,6 @@ public class PlayerPickup : MonoBehaviour
     public Transform holdPoint;
 
     private PickupObject heldObject;
-    private WasteInfoUI wasteInfoUI;
-
-    private void Start()
-    {
-        wasteInfoUI = FindAnyObjectByType<WasteInfoUI>();
-    }
 
     void Update()
     {
@@ -28,45 +22,43 @@ public class PlayerPickup : MonoBehaviour
             return;
         }
 
-        // ===============================
-        // If holding something
-        // ===============================
+        //================================================
+        // PLAYER IS ALREADY HOLDING AN OBJECT
+        //================================================
         if (heldObject != null)
         {
+            // Check if player clicked on a trash can
             TrashCan trashCan = hit.collider.GetComponent<TrashCan>();
 
             if (trashCan != null)
             {
                 trashCan.TryDispose(heldObject);
 
-                // If the object was disposed, clear the reference and hide the UI
+                // Object was disposed
                 if (heldObject != null && heldObject.IsDisposed)
                 {
                     heldObject = null;
-
-                    if (wasteInfoUI != null)
-                    {
-                        wasteInfoUI.HideInfo();
-                    }
                 }
 
                 return;
             }
 
-            // Click anywhere else = drop
+            // Otherwise, drop the object
             heldObject.Release();
 
-            if (wasteInfoUI != null)
-                wasteInfoUI.HideInfo();
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.HideHint();
+            }
 
             heldObject = null;
 
             return;
         }
 
-        // ===============================
-        // Pick up an object
-        // ===============================
+        //================================================
+        // PLAYER IS NOT HOLDING ANYTHING
+        //================================================
         PickupObject pickup = hit.collider.GetComponent<PickupObject>();
 
         if (pickup != null)
@@ -77,9 +69,10 @@ public class PlayerPickup : MonoBehaviour
 
             WasteItem waste = pickup.GetComponent<WasteItem>();
 
-            if (waste != null && wasteInfoUI != null)
+            if (waste != null && GameUIManager.Instance != null)
             {
-                wasteInfoUI.ShowInfo(waste);
+                // Show the hint popup
+                GameUIManager.Instance.ShowHint(waste);
             }
 
             Debug.Log("Picked up " + pickup.name);
