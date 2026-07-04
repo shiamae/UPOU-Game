@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     public float crouchHeight = 1f;
     public float crouchSpeed = 3f;
 
+    [Header("Footsteps")]
+    public float walkStepInterval = 0.5f;
+    public float runStepInterval = 0.3f;
+
+    private float footstepTimer;
+
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0f;
@@ -96,6 +102,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.y -= gravity * Time.deltaTime;
 
         characterController.Move(moveDirection * Time.deltaTime);
+
+        HandleFootsteps(isRunning, moveInput);
     }
 
     void HandleMouseLook()
@@ -115,5 +123,56 @@ public class PlayerMovement : MonoBehaviour
             Vector3.up,
             mouseDelta.x * lookSpeed * Time.deltaTime
         );
+    }
+
+    private void HandleFootsteps(bool isRunning, Vector2 moveInput)
+    {
+        // Only play footsteps when moving on the ground
+        if (!characterController.isGrounded || moveInput == Vector2.zero)
+        {
+            footstepTimer = 0f;
+            return;
+        }
+
+        footstepTimer += Time.deltaTime;
+
+        float interval = isRunning ? runStepInterval : walkStepInterval;
+
+        if (footstepTimer >= interval)
+        {
+            footstepTimer = 0f;
+
+            string ground = GetGroundType();
+
+            if (AudioManager.Instance == null)
+                return;
+
+            if (ground == "Grass")
+            {
+                AudioManager.Instance.PlayGrassFootstep();
+            }
+            else
+            {
+                AudioManager.Instance.PlayConcreteFootstep();
+            }
+        }
+    }
+
+    private string GetGroundType()
+    {
+        RaycastHit hit;
+
+        Vector3 origin = transform.position + Vector3.up * 0.2f;
+
+        if (Physics.Raycast(origin, Vector3.down, out hit, 3f))
+        {
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Grass"))
+                return "Grass";
+
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Concrete"))
+                return "Concrete";
+        }
+
+        return "";
     }
 }

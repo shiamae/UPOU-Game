@@ -68,7 +68,11 @@ public class PlayerPickup : MonoBehaviour
 
         if (pickup != null)
         {
+            Debug.Log("Found PickupObject: " + pickup.name);
+
             pickup.PickUp(holdPoint);
+
+            Debug.Log("Returned from PickUp().");
 
             heldObject = pickup;
 

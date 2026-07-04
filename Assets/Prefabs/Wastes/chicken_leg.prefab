@@ -128,6 +128,8 @@ MonoBehaviour:
   holdPosition: {x: -0.1, y: -0.9, z: 0.3}
   holdRotation: {x: 0, y: 0, z: 0}
   holdScale: {x: 70, y: 70, z: 70}
+  pickupSound: {fileID: 8300000, guid: d5eaa603f45efa649a524c3932f39054, type: 3}
+  dropSound: {fileID: 8300000, guid: d5eaa603f45efa649a524c3932f39054, type: 3}
 --- !u!114 &8498674152549737062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,11 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Chicken Leg
   category: 1
-  decomposition: "1\u20136 months (meat); bones may take several years"
-  tip: '3R Tip: Recycle through composting (commercial composting for meat) or reduce
-    food waste by planning meals.'
-  description: Chicken bones and meat scraps are food waste that decompose naturally
-    but may attract pests if not disposed of properly.
+  hintImage: {fileID: 0}
+  educationImage: {fileID: 0}
 --- !u!65 &4027247153560541125
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -17,6 +17,10 @@ public class PickupObject : MonoBehaviour
     public Vector3 holdRotation = new Vector3(0f, 0f, 0f);
     public Vector3 holdScale = Vector3.one;
 
+    [Header("Audio")]
+    public AudioClip pickupSound;
+    public AudioClip dropSound;
+
     public bool IsHeld { get; private set; }
     public bool IsDisposed { get; private set; }
 
@@ -55,6 +59,27 @@ public class PickupObject : MonoBehaviour
         transform.localScale = holdScale;
 
         Debug.Log($"Picked up {name}");
+
+        Debug.Log("Trying to play pickup sound.");
+
+        if (AudioManager.Instance == null)
+        {
+            Debug.LogError("AudioManager.Instance is NULL!");
+        }
+        else if (pickupSound == null)
+        {
+            Debug.LogError("Pickup Sound is NULL!");
+        }
+        else
+        {
+            Debug.Log("Playing: " + pickupSound.name);
+            AudioManager.Instance.PlaySound(pickupSound);
+        }
+
+        if (AudioManager.Instance != null && pickupSound != null)
+        {
+            AudioManager.Instance.PlaySound(pickupSound);
+        }
     }
 
     public void Release()
@@ -76,6 +101,11 @@ public class PickupObject : MonoBehaviour
         col.enabled = true;
 
         Debug.Log($"Released {name}");
+
+        if (AudioManager.Instance != null && dropSound != null)
+        {
+            AudioManager.Instance.PlaySound(dropSound);
+        }
     }
 
     public void Dispose()
@@ -88,24 +118,24 @@ public class PickupObject : MonoBehaviour
     }
 
     public void Hide()
-{
-    IsHeld = false;
-
-    // Detach from the player's hand
-    transform.SetParent(null);
-
-    // Disable physics
-    rb.isKinematic = true;
-    col.enabled = false;
-
-    // Hide all renderers on this object
-    Renderer[] renderers = GetComponentsInChildren<Renderer>();
-
-    foreach (Renderer r in renderers)
     {
-        r.enabled = false;
-    }
+        IsHeld = false;
 
-    Debug.Log($"{name} hidden.");
-}
+        // Detach from the player's hand
+        transform.SetParent(null);
+
+        // Disable physics
+        rb.isKinematic = true;
+        col.enabled = false;
+
+        // Hide all renderers on this object
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer r in renderers)
+        {
+            r.enabled = false;
+        }
+
+        Debug.Log($"{name} hidden.");
+    }
 }

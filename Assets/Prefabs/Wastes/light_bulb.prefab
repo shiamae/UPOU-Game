@@ -149,6 +149,8 @@ MonoBehaviour:
   holdPosition: {x: 0.1, y: -0.03, z: 0.2}
   holdRotation: {x: 90, y: 0, z: 0}
   holdScale: {x: 0.07, y: 0.07, z: 0.07}
+  pickupSound: {fileID: 8300000, guid: c8b2f1a69d0807c4aa37f6f78be66fe0, type: 3}
+  dropSound: {fileID: 8300000, guid: c8b2f1a69d0807c4aa37f6f78be66fe0, type: 3}
 --- !u!114 &8110367919161724997
 MonoBehaviour:
   m_ObjectHideFlags: 0

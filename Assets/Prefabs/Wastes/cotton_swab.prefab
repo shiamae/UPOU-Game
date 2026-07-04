@@ -149,6 +149,8 @@ MonoBehaviour:
   holdPosition: {x: 0.1, y: -0.05, z: 0.2}
   holdRotation: {x: 0, y: 0, z: 0}
   holdScale: {x: 3, y: 3, z: 3}
+  pickupSound: {fileID: 8300000, guid: ad7587cfe9213204b8473b1ae85c926d, type: 3}
+  dropSound: {fileID: 8300000, guid: ad7587cfe9213204b8473b1ae85c926d, type: 3}
 --- !u!114 &4357707610688170466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,4 +165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Used Cotton Swab
   category: 2
-  infoImage: {fileID: 0}
+  hintImage: {fileID: 0}
+  educationImage: {fileID: 0}

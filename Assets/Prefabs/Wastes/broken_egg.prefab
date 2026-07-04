@@ -105,6 +105,8 @@ MonoBehaviour:
   holdPosition: {x: 0.1, y: -0.08, z: 0.2}
   holdRotation: {x: 0, y: 0, z: 0}
   holdScale: {x: 0.0004, y: 0.0004, z: 0.0004}
+  pickupSound: {fileID: 8300000, guid: 55007057617bda94181bae03258715f2, type: 3}
+  dropSound: {fileID: 8300000, guid: 55007057617bda94181bae03258715f2, type: 3}
 --- !u!114 &8251278340479206536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,12 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Egg Shells
   category: 1
-  decomposition: "Approximately 1\u20133 years, depending on environmental conditions
-    and whether the shells are crushed into smaller pieces."
-  tip: '3R Tip: Crush and add them to compost or garden soil as a natural calcium
-    source. They can also be used as a natural fertilizer or pest deterrent for plants.'
-  description: Egg shells are kitchen waste that naturally break down and are rich
-    in calcium. They can also benefit gardens when crushed.
+  hintImage: {fileID: 0}
+  educationImage: {fileID: 0}
 --- !u!54 &5625486045681346947
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -21,6 +21,9 @@ public class GameUIManager : MonoBehaviour
     public GameObject educationPanel;
     public Image educationImage;
 
+    [Header("Crosshair")]
+    public GameObject crosshair;
+
     private Coroutine popupRoutine;
 
     // Waste waiting to be disposed
@@ -41,11 +44,16 @@ public class GameUIManager : MonoBehaviour
             return;
         }
 
-        playerPickup = FindFirstObjectByType<PlayerPickup>();
+        playerPickup = FindAnyObjectByType<PlayerPickup>();
 
-        hintPanel.SetActive(false);
-        resultPanel.SetActive(false);
-        educationPanel.SetActive(false);
+        if (hintPanel != null)
+            hintPanel.SetActive(false);
+
+        if (resultPanel != null)
+            resultPanel.SetActive(false);
+
+        if (educationPanel != null)
+            educationPanel.SetActive(false);
     }
 
     //==================================================
@@ -63,7 +71,8 @@ public class GameUIManager : MonoBehaviour
 
     public void HideHint()
     {
-        hintPanel.SetActive(false);
+        if (hintPanel != null)
+            hintPanel.SetActive(false);
     }
 
     //==================================================
@@ -85,19 +94,19 @@ public class GameUIManager : MonoBehaviour
 
     private IEnumerator ResultPopupRoutine(bool correct, WasteItem waste)
     {
-        // Show result popup
+        // Uses realtime so it still works even if the game pauses later.
         yield return new WaitForSecondsRealtime(popupDuration);
 
         resultPanel.SetActive(false);
 
-        // Wrong disposal ends here
+        // Wrong disposal ends here.
         if (!correct)
         {
             pendingPickup = null;
             yield break;
         }
 
-        // Show education popup
+        // Correct disposal -> show education popup.
         if (waste != null)
         {
             ShowEducation(waste);
@@ -116,6 +125,10 @@ public class GameUIManager : MonoBehaviour
         educationImage.sprite = waste.educationImage;
         educationPanel.SetActive(true);
 
+        // Hide crosshair
+        if (crosshair != null)
+            crosshair.SetActive(false);
+
         // Pause the game
         Time.timeScale = 0f;
 
@@ -130,6 +143,10 @@ public class GameUIManager : MonoBehaviour
 
         // Resume game
         Time.timeScale = 1f;
+
+        // Show crosshair again
+        if (crosshair != null)
+            crosshair.SetActive(true);
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;

@@ -151,6 +151,8 @@ MonoBehaviour:
   holdPosition: {x: 0.01, y: -0.05, z: 0.2}
   holdRotation: {x: 45, y: 180, z: 0}
   holdScale: {x: 0.7, y: 0.7, z: 0.7}
+  pickupSound: {fileID: 8300000, guid: ec913de28e914cf4b86281e703a09100, type: 3}
+  dropSound: {fileID: 8300000, guid: ec913de28e914cf4b86281e703a09100, type: 3}
 --- !u!114 &4745150365056943594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Food Container
   category: 0
-  decomposition: 
-  tip: 
-  description: 
+  hintImage: {fileID: 0}
+  educationImage: {fileID: 0}
