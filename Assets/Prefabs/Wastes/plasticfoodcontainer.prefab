@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &266982763022715534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      propertyPath: m_Name
+      value: plasticfoodcontainer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+    - {fileID: -8700617353114198275, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1001699176575568876}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6288221918554803200}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 546410623663017828}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4745150365056943594}
+  m_SourcePrefab: {fileID: 100100000, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+--- !u!1 &1114054564930271199 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 687f65365cc47794a8e55d3afa0198c7, type: 3}
+  m_PrefabInstance: {fileID: 266982763022715534}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1001699176575568876
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114054564930271199}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6288221918554803200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114054564930271199}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.18533584, y: 0.26215813, z: 0.265217}
+  m_Center: {x: -0.12733208, y: 0.1154481, z: -0.045194577}
+--- !u!114 &546410623663017828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114054564930271199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52697dd4c3261b24d9fd55c2b68b90cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupObject
+  holdPosition: {x: 0.01, y: -0.05, z: 0.2}
+  holdRotation: {x: 45, y: 180, z: 0}
+  holdScale: {x: 0.7, y: 0.7, z: 0.7}
+  pickupSound: {fileID: 8300000, guid: ec913de28e914cf4b86281e703a09100, type: 3}
+  dropSound: {fileID: 8300000, guid: ec913de28e914cf4b86281e703a09100, type: 3}
+--- !u!114 &4745150365056943594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114054564930271199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ccbd78032d0724c80e480dfb37e68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WasteItem
+  itemName: Plastic Food Container
+  category: 0
+  hintImage: {fileID: 0}
+  educationImage: {fileID: 0}

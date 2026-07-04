@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6074217219986137917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 26.49
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      propertyPath: m_Name
+      value: glass_bottle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7593155165218080828}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3688019924503518438}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4566715441965017671}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8982321268356186500}
+  m_SourcePrefab: {fileID: 100100000, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+--- !u!1 &6380085205152603756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0275aa5401cd7464495ad7c70a6e65f1, type: 3}
+  m_PrefabInstance: {fileID: 6074217219986137917}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7593155165218080828
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380085205152603756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.004516759, y: 0.004516759, z: 0.015638055}
+  m_Center: {x: 4.656613e-10, y: 0, z: 0.0078081833}
+--- !u!54 &3688019924503518438
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380085205152603756}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4566715441965017671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380085205152603756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52697dd4c3261b24d9fd55c2b68b90cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupObject
+  holdPosition: {x: 0.1, y: -0.1, z: 0.2}
+  holdRotation: {x: -90, y: 0, z: 0}
+  holdScale: {x: 10, y: 10, z: 10}
+  pickupSound: {fileID: 8300000, guid: cbfa7d6e40a496942b35b9abf0ff2634, type: 3}
+  dropSound: {fileID: 8300000, guid: cbfa7d6e40a496942b35b9abf0ff2634, type: 3}
+--- !u!114 &8982321268356186500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380085205152603756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ccbd78032d0724c80e480dfb37e68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WasteItem
+  itemName: Glass Bottle
+  category: 0
+  hintImage: {fileID: 21300000, guid: 20cfe512bec49c34b81b7d9528c7cff8, type: 3}
+  educationImage: {fileID: 21300000, guid: df0c89238ca30ba449c19739099e63c8, type: 3}
