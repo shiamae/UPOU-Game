@@ -2155,7 +2155,25 @@ MonoBehaviour:
     quantity: 10
   - wastePrefab: {fileID: 9056732355402066612, guid: 2d771b63bbe37624da985ae5d623004f, type: 3}
     quantity: 5
-  spawnArea: {x: 400, y: 0, z: 320}
+  - wastePrefab: {fileID: 1992523504043513203, guid: 5d8f59738f2de174fad4dd7fb7ba9d15, type: 3}
+    quantity: 10
+  - wastePrefab: {fileID: 7568535192178522376, guid: e0ac7223d0d0b014aac8f98996b57271, type: 3}
+    quantity: 10
+  - wastePrefab: {fileID: 2221839817058958678, guid: 96a0ddb6959f53042a3e80df0bf3a350, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 7494279019992837952, guid: 665e9509a6704ae469d233712cff701e, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 812648383394217756, guid: da2ddb92d3ce60b41a40b58cf36f44c1, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 2209800870305547517, guid: bb0ddde18ab5d9f46be14dfe41bd862f, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 720397568479004802, guid: 5bbbff2053ef463438e2160e2f1db648, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 2974551402454799285, guid: 2fb3d05c1526c354db89464b64d42b56, type: 3}
+    quantity: 5
+  - wastePrefab: {fileID: 2832512978472128643, guid: 6e878d462bb540744a072c0ff45cb0b0, type: 3}
+    quantity: 5
+  spawnArea: {x: 400, y: 0, z: 360}
   raycastHeight: 50
   groundLayer:
     serializedVersion: 2
@@ -2171,7 +2189,7 @@ Transform:
   m_GameObject: {fileID: 1187372933}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -98.5, y: 2.55572, z: 19.2}
+  m_LocalPosition: {x: -104, y: 2.55572, z: 14.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

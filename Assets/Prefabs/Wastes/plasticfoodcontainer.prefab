@@ -167,5 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Food Container
   category: 0
-  hintImage: {fileID: 0}
-  educationImage: {fileID: 0}
+  hintImage: {fileID: 21300000, guid: b582d629742822148a2b0f00a43196e2, type: 3}
+  educationImage: {fileID: 21300000, guid: 1648838f543559c4d9bde777ace892fb, type: 3}

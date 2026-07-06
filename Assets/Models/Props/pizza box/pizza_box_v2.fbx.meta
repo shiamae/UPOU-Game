@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d36647fff4e8c0744a2f9f03406fc082
+guid: 7ce841c95ef5d57449ae7c9aa9710307
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
@@ -7,8 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat0
-    second: {fileID: 2100000, guid: f97d91734a084254fa674d77859333c1, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: 8099ac28fa6f06a45bfc1f8b977092d0, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PizzaBoxV1_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: b9b3d81660ce03f42855748c0e2396c0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PizzaBoxV1_DefaultMaterial_Metallic
+    second: {fileID: 2800000, guid: c7a306040813d064a84695c541f2e29c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PizzaBoxV1_DefaultMaterial_Normal
+    second: {fileID: 2800000, guid: 6100acc094b14594aaf875dfbde7e48a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PizzaBoxV1_DefaultMaterial_Roughness
+    second: {fileID: 2800000, guid: da41d54e718882f46bfe052f33b83059, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

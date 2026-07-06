@@ -167,5 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Plastic Cup
   category: 2
-  hintImage: {fileID: 0}
-  educationImage: {fileID: 0}
+  hintImage: {fileID: 21300000, guid: a620cbfd0d1777c44921d5435b83105e, type: 3}
+  educationImage: {fileID: 21300000, guid: 9091a7ca517d3084093a231eadc0a3f4, type: 3}
