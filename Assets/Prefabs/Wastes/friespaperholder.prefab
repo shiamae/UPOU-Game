@@ -198,6 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Fries Holder
-  category: 1
-  hintImage: {fileID: 0}
-  educationImage: {fileID: 0}
+  category: 2
+  hintImage: {fileID: 21300000, guid: 4445299d0111205499aa5617cc483c8f, type: 3}
+  educationImage: {fileID: 21300000, guid: 19dd8e03391c55d42a8bc228a60ba678, type: 3}

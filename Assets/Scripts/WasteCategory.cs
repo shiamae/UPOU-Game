@@ -3,5 +3,6 @@ public enum WasteCategory
     Recyclable,
     Biodegradable,
     Residual,
-    Hazardous
+    Hazardous,
+    Infectious
 }
