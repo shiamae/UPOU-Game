@@ -33,6 +33,11 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
 
         Debug.Log("Current Score: " + Score);
+
+        if (BadgeManager.Instance != null)
+        {
+            BadgeManager.Instance.CheckBadges(Score);
+        }
     }
     private void UpdateScoreUI()
     {

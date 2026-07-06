@@ -409,6 +409,8 @@ MonoBehaviour:
   defaultHeight: 2
   crouchHeight: 1
   crouchSpeed: 3
+  walkStepInterval: 0.5
+  runStepInterval: 0.3
 --- !u!143 &404399127
 CharacterController:
   m_ObjectHideFlags: 0
