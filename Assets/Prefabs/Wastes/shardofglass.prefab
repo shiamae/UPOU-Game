@@ -167,5 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Shard of Glass
   category: 3
-  hintImage: {fileID: 0}
-  educationImage: {fileID: 0}
+  hintImage: {fileID: 21300000, guid: e047c268200a50241aee9e784ec2254e, type: 3}
+  educationImage: {fileID: 21300000, guid: 9bdce8c77fcacab408fcedcb664a56ed, type: 3}

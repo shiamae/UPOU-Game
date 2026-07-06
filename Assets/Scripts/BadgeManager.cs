@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,7 @@ public class BadgeManager : MonoBehaviour
     public class Badge
     {
         public string badgeName;
+
         [TextArea]
         public string description;
 
@@ -26,35 +28,37 @@ public class BadgeManager : MonoBehaviour
     [Header("Badges")]
     public List<Badge> badges = new List<Badge>();
 
-    [Header("Popup")]
-    public GameObject badgePopupPanel;
-    public Image popupBadgeIcon;
-    public TMP_Text popupBadgeName;
-    public TMP_Text popupDescription;
+    [Header("Badge Notification")]
+    public GameObject notificationPanel;
+    public Image notificationIcon;
+    public TMP_Text notificationTitle;
+    public TMP_Text notificationText;
+
+    [Tooltip("How long the notification stays on screen.")]
+    public float notificationDuration = 3f;
 
     [Header("Badge Collection")]
     public GameObject badgeCollectionPanel;
 
-    [Header("HUD Icons")]
+    [Header("HUD Badge Icons")]
     public Image[] badgeSlots;
 
-    [Header("Crosshair")]
-    public GameObject crosshair;
-
-    private bool popupShowing = false;
+    private Coroutine notificationRoutine;
 
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+        }
         else
         {
             Destroy(gameObject);
             return;
         }
 
-        if (badgePopupPanel != null)
-            badgePopupPanel.SetActive(false);
+        if (notificationPanel != null)
+            notificationPanel.SetActive(false);
 
         if (badgeCollectionPanel != null)
             badgeCollectionPanel.SetActive(false);
@@ -64,7 +68,10 @@ public class BadgeManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame && !popupShowing)
+        if (Keyboard.current == null)
+            return;
+
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             ToggleBadgeCollection();
         }
@@ -98,50 +105,43 @@ public class BadgeManager : MonoBehaviour
 
         RefreshHUD();
 
-        ShowPopup(badge);
+        ShowNotification(badge);
+
+        Debug.Log("Unlocked Badge: " + badge.badgeName);
     }
 
     //====================================================
-    // Popup
+    // Notification
     //====================================================
 
-    private void ShowPopup(Badge badge)
+    private void ShowNotification(Badge badge)
     {
-        popupShowing = true;
+        if (notificationRoutine != null)
+            StopCoroutine(notificationRoutine);
 
-        badgePopupPanel.SetActive(true);
+        notificationPanel.SetActive(true);
 
-        popupBadgeIcon.sprite = badge.badgeIcon;
-        popupBadgeName.text = badge.badgeName;
-        popupDescription.text = badge.description;
+        notificationIcon.sprite = badge.badgeIcon;
 
-        Time.timeScale = 0f;
+        notificationTitle.text = $"<b>{badge.badgeName}</b>" + $"Earned!";
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        notificationText.text =
+            $"Congrats! You earned the badge " +
+            $"<b>{badge.badgeName}</b> " +
+            $"for reaching {badge.requiredScore} points.";
 
-        if (crosshair != null)
-            crosshair.SetActive(false);
+        notificationRoutine = StartCoroutine(HideNotification());
     }
 
-    // Assign this to the popup X button.
-    public void ClosePopup()
+    private IEnumerator HideNotification()
     {
-        badgePopupPanel.SetActive(false);
+        yield return new WaitForSeconds(notificationDuration);
 
-        popupShowing = false;
-
-        Time.timeScale = 1f;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        if (crosshair != null)
-            crosshair.SetActive(true);
+        notificationPanel.SetActive(false);
     }
 
     //====================================================
-    // Collection
+    // Badge Collection
     //====================================================
 
     public void ToggleBadgeCollection()
@@ -159,9 +159,6 @@ public class BadgeManager : MonoBehaviour
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
-            if (crosshair != null)
-                crosshair.SetActive(false);
         }
         else
         {
@@ -169,14 +166,11 @@ public class BadgeManager : MonoBehaviour
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            if (crosshair != null)
-                crosshair.SetActive(true);
         }
     }
 
     //====================================================
-    // HUD
+    // HUD Icons
     //====================================================
 
     private void RefreshHUD()
@@ -195,16 +189,17 @@ public class BadgeManager : MonoBehaviour
             badgeSlots[i].enabled = true;
             badgeSlots[i].sprite = badges[i].badgeIcon;
 
-            Color c = badgeSlots[i].color;
+            Color color = badgeSlots[i].color;
 
-            if (badges[i].unlocked)
-                c.a = 1f;
-            else
-                c.a = 0.25f;
+            color.a = badges[i].unlocked ? 1f : 0.25f;
 
-            badgeSlots[i].color = c;
+            badgeSlots[i].color = color;
         }
     }
+
+    //====================================================
+    // Public Helpers
+    //====================================================
 
     public bool IsUnlocked(int index)
     {
@@ -212,5 +207,13 @@ public class BadgeManager : MonoBehaviour
             return false;
 
         return badges[index].unlocked;
+    }
+
+    public Badge GetBadge(int index)
+    {
+        if (index < 0 || index >= badges.Count)
+            return null;
+
+        return badges[index];
     }
 }

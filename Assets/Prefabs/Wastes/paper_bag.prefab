@@ -167,5 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Paper Bag
   category: 0
-  hintImage: {fileID: 0}
-  educationImage: {fileID: 0}
+  hintImage: {fileID: 21300000, guid: abf073cf4ca107746bc187903652a46a, type: 3}
+  educationImage: {fileID: 21300000, guid: f91e376eca427a148afeb9bd164e68d9, type: 3}
