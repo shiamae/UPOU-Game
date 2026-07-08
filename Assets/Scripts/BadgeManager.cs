@@ -14,10 +14,10 @@ public class BadgeManager : MonoBehaviour
         [Header("Unlock")]
         public int requiredScore;
 
-        [Header("Notification Image")]
+        [Header("Notification Popup Image")]
         public Sprite badgePopup;
 
-        [Header("HUD Icon")]
+        [Header("HUD Badge Icon")]
         public Sprite badgeIcon;
 
         [HideInInspector]
@@ -40,7 +40,7 @@ public class BadgeManager : MonoBehaviour
 
     private Coroutine notificationRoutine;
 
-    // Badge waiting to be displayed
+    // Badge waiting to be shown after the education popup closes
     private Badge pendingBadge;
 
     private void Awake()
@@ -104,7 +104,7 @@ public class BadgeManager : MonoBehaviour
         RefreshHUD();
 
         // Save the badge for later.
-        // It will be shown after the education popup closes.
+        // It will appear after the education popup closes.
         pendingBadge = badge;
 
         Debug.Log($"Unlocked badge ({badge.requiredScore} points)");
@@ -140,6 +140,12 @@ public class BadgeManager : MonoBehaviour
 
         notificationPanel.SetActive(true);
 
+        // Play badge unlock sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBadgeUnlock();
+        }
+
         notificationRoutine = StartCoroutine(HideNotification());
     }
 
@@ -167,14 +173,12 @@ public class BadgeManager : MonoBehaviour
         if (open)
         {
             Time.timeScale = 0f;
-
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else
         {
             Time.timeScale = 1f;
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
