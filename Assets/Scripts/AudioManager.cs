@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip correctDisposeSound;
     public AudioClip wrongDisposeSound;
     public AudioClip buttonClickSound;
+    public AudioClip badgeUnlockSound;
 
     [Header("Footstep SFX")]
     public AudioClip[] concreteFootsteps;
@@ -78,5 +79,10 @@ public class AudioManager : MonoBehaviour
 
         AudioClip clip = grassFootsteps[Random.Range(0, grassFootsteps.Length)];
         PlaySound(clip, 0.6f);
+    }
+
+    public void PlayBadgeUnlock()
+    {
+        PlaySound(badgeUnlockSound, 0.8f);
     }
 }
