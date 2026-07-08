@@ -164,5 +164,29 @@ public class GameUIManager : MonoBehaviour
         {
             playerPickup.ClearHeldObject();
         }
+
+        // Resume game
+        Time.timeScale = 1f;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        // Destroy the waste
+        if (pendingPickup != null)
+        {
+            pendingPickup.Dispose();
+            pendingPickup = null;
+        }
+
+        if (playerPickup != null)
+        {
+            playerPickup.ClearHeldObject();
+        }
+
+        // NOW show the badge
+        if (BadgeManager.Instance != null)
+        {
+            BadgeManager.Instance.ShowPendingBadge();
+        }
     }
 }

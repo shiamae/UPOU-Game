@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using TMPro;
 
 public class BadgeManager : MonoBehaviour
 {
@@ -12,13 +11,13 @@ public class BadgeManager : MonoBehaviour
     [System.Serializable]
     public class Badge
     {
-        public string badgeName;
-
-        [TextArea]
-        public string description;
-
+        [Header("Unlock")]
         public int requiredScore;
 
+        [Header("Notification Image")]
+        public Sprite badgePopup;
+
+        [Header("HUD Icon")]
         public Sprite badgeIcon;
 
         [HideInInspector]
@@ -28,13 +27,9 @@ public class BadgeManager : MonoBehaviour
     [Header("Badges")]
     public List<Badge> badges = new List<Badge>();
 
-    [Header("Badge Notification")]
+    [Header("Notification")]
     public GameObject notificationPanel;
-    public Image notificationIcon;
-    public TMP_Text notificationTitle;
-    public TMP_Text notificationText;
-
-    [Tooltip("How long the notification stays on screen.")]
+    public Image notificationImage;
     public float notificationDuration = 3f;
 
     [Header("Badge Collection")]
@@ -44,6 +39,9 @@ public class BadgeManager : MonoBehaviour
     public Image[] badgeSlots;
 
     private Coroutine notificationRoutine;
+
+    // Badge waiting to be displayed
+    private Badge pendingBadge;
 
     private void Awake()
     {
@@ -77,9 +75,9 @@ public class BadgeManager : MonoBehaviour
         }
     }
 
-    //====================================================
+    //==================================================
     // Called by ScoreManager
-    //====================================================
+    //==================================================
 
     public void CheckBadges(int currentScore)
     {
@@ -95,9 +93,9 @@ public class BadgeManager : MonoBehaviour
         }
     }
 
-    //====================================================
+    //==================================================
     // Unlock Badge
-    //====================================================
+    //==================================================
 
     private void UnlockBadge(Badge badge)
     {
@@ -105,30 +103,42 @@ public class BadgeManager : MonoBehaviour
 
         RefreshHUD();
 
-        ShowNotification(badge);
+        // Save the badge for later.
+        // It will be shown after the education popup closes.
+        pendingBadge = badge;
 
-        Debug.Log("Unlocked Badge: " + badge.badgeName);
+        Debug.Log($"Unlocked badge ({badge.requiredScore} points)");
     }
 
-    //====================================================
+    //==================================================
+    // Called by GameUIManager
+    //==================================================
+
+    public void ShowPendingBadge()
+    {
+        if (pendingBadge == null)
+            return;
+
+        ShowNotification(pendingBadge);
+
+        pendingBadge = null;
+    }
+
+    //==================================================
     // Notification
-    //====================================================
+    //==================================================
 
     private void ShowNotification(Badge badge)
     {
+        if (notificationPanel == null || notificationImage == null)
+            return;
+
         if (notificationRoutine != null)
             StopCoroutine(notificationRoutine);
 
+        notificationImage.sprite = badge.badgePopup;
+
         notificationPanel.SetActive(true);
-
-        notificationIcon.sprite = badge.badgeIcon;
-
-        notificationTitle.text = $"<b>{badge.badgeName}</b>" + $"Earned!";
-
-        notificationText.text =
-            $"Congrats! You earned the badge " +
-            $"<b>{badge.badgeName}</b> " +
-            $"for reaching {badge.requiredScore} points.";
 
         notificationRoutine = StartCoroutine(HideNotification());
     }
@@ -137,12 +147,13 @@ public class BadgeManager : MonoBehaviour
     {
         yield return new WaitForSeconds(notificationDuration);
 
-        notificationPanel.SetActive(false);
+        if (notificationPanel != null)
+            notificationPanel.SetActive(false);
     }
 
-    //====================================================
+    //==================================================
     // Badge Collection
-    //====================================================
+    //==================================================
 
     public void ToggleBadgeCollection()
     {
@@ -169,9 +180,9 @@ public class BadgeManager : MonoBehaviour
         }
     }
 
-    //====================================================
-    // HUD Icons
-    //====================================================
+    //==================================================
+    // HUD
+    //==================================================
 
     private void RefreshHUD()
     {
@@ -189,17 +200,15 @@ public class BadgeManager : MonoBehaviour
             badgeSlots[i].enabled = true;
             badgeSlots[i].sprite = badges[i].badgeIcon;
 
-            Color color = badgeSlots[i].color;
-
-            color.a = badges[i].unlocked ? 1f : 0.25f;
-
-            badgeSlots[i].color = color;
+            Color c = badgeSlots[i].color;
+            c.a = badges[i].unlocked ? 1f : 0.25f;
+            badgeSlots[i].color = c;
         }
     }
 
-    //====================================================
-    // Public Helpers
-    //====================================================
+    //==================================================
+    // Helpers
+    //==================================================
 
     public bool IsUnlocked(int index)
     {

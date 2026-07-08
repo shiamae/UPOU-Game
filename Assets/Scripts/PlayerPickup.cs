@@ -31,7 +31,18 @@ public class PlayerPickup : MonoBehaviour
         //================================================
         if (heldObject != null)
         {
-            TrashCan trashCan = hit.collider.GetComponent<TrashCan>();
+            Debug.Log("Hit: " + hit.collider.name);
+
+            TrashCan trashCan = hit.collider.GetComponentInParent<TrashCan>();
+
+            if (trashCan != null)
+            {
+                Debug.Log("Found TrashCan: " + trashCan.name);
+            }
+            else
+            {
+                Debug.Log("No TrashCan found.");
+            }
 
             // Player clicked a trash can
             if (trashCan != null)
