@@ -5,24 +5,18 @@ using TMPro;
 public class BadgeUI : MonoBehaviour
 {
     [Header("Badge Details")]
-    public Image badgeIcon;
-    public TMP_Text badgeName;
-    public TMP_Text badgeDescription;
+    public Image badgePopup;
 
     public void ShowBadge(BadgeManager.Badge badge)
     {
         if (badge == null)
             return;
 
-        badgeIcon.sprite = badge.badgeIcon;
-        badgeName.text = badge.badgeName;
-        badgeDescription.text = badge.description;
+        badgePopup.sprite = badge.badgePopup;
     }
 
     public void Clear()
     {
-        badgeIcon.sprite = null;
-        badgeName.text = "";
-        badgeDescription.text = "";
+        badgePopup.sprite = null;
     }
 }
