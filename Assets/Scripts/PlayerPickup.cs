@@ -9,6 +9,21 @@ public class PlayerPickup : MonoBehaviour
 
     private PickupObject heldObject;
 
+    public static PlayerPickup Instance { get; private set; }
+
+    public bool IsHoldingObject => heldObject != null;
+
+    private float lastDisposeTime = -10f;
+    public bool RecentlyDisposedTrash(float withinSeconds = 1.5f)
+    {
+        return Time.time - lastDisposeTime < withinSeconds;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     void Update()
     {
         // Don't allow interaction while the education popup is open
@@ -56,6 +71,7 @@ public class PlayerPickup : MonoBehaviour
                     !heldObject.gameObject.activeInHierarchy)
                 {
                     heldObject = null;
+                    lastDisposeTime = Time.time;
                 }
 
                 return;
