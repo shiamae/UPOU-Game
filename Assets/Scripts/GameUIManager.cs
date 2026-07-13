@@ -24,6 +24,13 @@ public class GameUIManager : MonoBehaviour
     [Header("Crosshair")]
     public GameObject crosshair;
 
+    [Header("Trash Bin Info")]
+    public GameObject trashBinInfoPanel;
+    public Text trashBinTitleText;
+    public Text trashBinDescriptionText;
+    public Text trashBinHintText;
+    public Text trashBinExamplesText;
+
     private Coroutine popupRoutine;
 
     // Waste waiting to be disposed
@@ -54,6 +61,9 @@ public class GameUIManager : MonoBehaviour
 
         if (educationPanel != null)
             educationPanel.SetActive(false);
+
+        if (trashBinInfoPanel != null)
+            trashBinInfoPanel.SetActive(false);
     }
 
     //==================================================
@@ -73,6 +83,42 @@ public class GameUIManager : MonoBehaviour
     {
         if (hintPanel != null)
             hintPanel.SetActive(false);
+    }
+
+    //==================================================
+    // TRASH BIN INFO
+    //==================================================
+
+    public void ShowTrashBinInfo(TrashCan trashCan)
+    {
+        if (trashCan == null)
+        {
+            HideTrashBinInfo();
+            return;
+        }
+
+        if (trashBinInfoPanel != null)
+            trashBinInfoPanel.SetActive(true);
+
+        if (trashBinTitleText != null)
+            trashBinTitleText.text = trashCan.GetDisplayName();
+
+        if (trashBinDescriptionText != null)
+            trashBinDescriptionText.text = trashCan.GetDescription();
+
+        // Show hint to help player decide
+        if (trashBinHintText != null)
+            trashBinHintText.text = trashCan.GetHint();
+
+        // Show examples of what belongs in this bin
+        if (trashBinExamplesText != null)
+            trashBinExamplesText.text = trashCan.GetCategoryExamples();
+    }
+
+    public void HideTrashBinInfo()
+    {
+        if (trashBinInfoPanel != null)
+            trashBinInfoPanel.SetActive(false);
     }
 
     //==================================================

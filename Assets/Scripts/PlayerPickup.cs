@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerPickup : MonoBehaviour
 {
     [Header("Pickup Settings")]
-    public float interactionDistance = 10f;
+    public float interactionDistance = 100f;
     public Transform holdPoint;
 
     private PickupObject heldObject;
@@ -13,7 +13,16 @@ public class PlayerPickup : MonoBehaviour
     {
         // Don't allow interaction while the education popup is open
         if (Time.timeScale == 0f)
+        {
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.HideTrashBinInfo();
+            }
+
             return;
+        }
+
+        HandleTrashBinHover();
 
         if (!Mouse.current.leftButton.wasPressedThisFrame)
             return;
@@ -98,11 +107,75 @@ public class PlayerPickup : MonoBehaviour
         }
     }
 
+    private void HandleTrashBinHover()
+    {
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
+        {
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.HideTrashBinInfo();
+            }
+
+            return;
+        }
+
+        TrashCan trashCan = hit.collider.GetComponentInParent<TrashCan>();
+
+        if (trashCan != null && GameUIManager.Instance != null)
+        {
+            GameUIManager.Instance.ShowTrashBinInfo(trashCan);
+        }
+        else if (GameUIManager.Instance != null)
+        {
+            GameUIManager.Instance.HideTrashBinInfo();
+        }
+    }
+
     /// <summary>
     /// Called by GameUIManager after the education popup closes.
     /// </summary>
     public void ClearHeldObject()
     {
         heldObject = null;
+    }
+
+    /// <summary>
+    /// Gets the currently held object.
+    /// </summary>
+    public PickupObject GetHeldObject()
+    {
+        return heldObject;
+    }
+
+    /// <summary>
+    /// Finds and returns the nearest trash can to the player.
+    /// </summary>
+    public TrashCan GetNearestTrashCan()
+    {
+        TrashCan[] allTrashCans = FindObjectsByType<TrashCan>(FindObjectsSortMode.None);
+
+        if (allTrashCans.Length == 0)
+            return null;
+
+        TrashCan nearestTrashCan = null;
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (TrashCan trashCan in allTrashCans)
+        {
+            if (trashCan == null)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, trashCan.transform.position);
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestTrashCan = trashCan;
+            }
+        }
+
+        return nearestTrashCan;
     }
 }
