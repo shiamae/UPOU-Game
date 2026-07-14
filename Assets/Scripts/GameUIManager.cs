@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
@@ -9,6 +10,15 @@ public class GameUIManager : MonoBehaviour
     [Header("Hint Popup")]
     public GameObject hintPanel;
     public Image hintImage;
+
+    [Header("Bin Hint Popup")]
+    public GameObject binHintPanel;
+    public Image binHintImage;
+    public Sprite residualBinHintImage;
+    public Sprite recyclableBinHintImage;
+    public Sprite biodegradableBinHintImage;
+    public Sprite hazardousBinHintImage;
+    public Sprite infectiousBinHintImage;
 
     [Header("Result Popup")]
     public GameObject resultPanel;
@@ -42,6 +52,8 @@ public class GameUIManager : MonoBehaviour
     // Reference to the player pickup script
     private PlayerPickup playerPickup;
 
+    private TrashCan hoveredBin;
+
     private void Awake()
     {
         if (Instance == null)
@@ -58,6 +70,9 @@ public class GameUIManager : MonoBehaviour
 
         if (hintPanel != null)
             hintPanel.SetActive(false);
+
+        if (binHintPanel != null)
+            binHintPanel.SetActive(false);
 
         if (resultPanel != null)
             resultPanel.SetActive(false);
@@ -87,6 +102,147 @@ public class GameUIManager : MonoBehaviour
 
         if (feedbackOverlay != null)
             feedbackOverlay.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (IsBinHintBlocked())
+        {
+            HideBinHint();
+            return;
+        }
+
+        if (hoveredBin != null)
+            ShowBinHint(hoveredBin.acceptedCategory);
+
+        HandleBinHintInput();
+    }
+
+    private void HandleBinHintInput()
+    {
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard == null)
+            return;
+
+        if (keyboard.digit1Key.wasPressedThisFrame || keyboard.numpad1Key.wasPressedThisFrame)
+        {
+            ShowBinHint(WasteCategory.Residual);
+        }
+        else if (keyboard.digit2Key.wasPressedThisFrame || keyboard.numpad2Key.wasPressedThisFrame)
+        {
+            ShowBinHint(WasteCategory.Recyclable);
+        }
+        else if (keyboard.digit3Key.wasPressedThisFrame || keyboard.numpad3Key.wasPressedThisFrame)
+        {
+            ShowBinHint(WasteCategory.Biodegradable);
+        }
+        else if (keyboard.digit4Key.wasPressedThisFrame || keyboard.numpad4Key.wasPressedThisFrame)
+        {
+            ShowBinHint(WasteCategory.Hazardous);
+        }
+        else if (keyboard.digit5Key.wasPressedThisFrame || keyboard.numpad5Key.wasPressedThisFrame)
+        {
+            ShowBinHint(WasteCategory.Infectious);
+        }
+        else if (keyboard.escapeKey.wasPressedThisFrame)
+        {
+            HideBinHint();
+        }
+    }
+
+    public void NotifyBinHoverEnter(TrashCan bin)
+    {
+        if (bin == null)
+            return;
+
+        hoveredBin = bin;
+
+        if (!IsBinHintBlocked())
+            ShowBinHint(bin.acceptedCategory);
+    }
+
+    public void NotifyBinHoverExit(TrashCan bin)
+    {
+        if (bin == null || hoveredBin != bin)
+            return;
+
+        hoveredBin = null;
+        HideBinHint();
+    }
+
+    public void ShowBinHint(WasteCategory category)
+    {
+        if (IsBinHintBlocked())
+        {
+            HideBinHint();
+            return;
+        }
+
+        ShowBinHint(GetBinHintSprite(category));
+    }
+
+    private Sprite GetBinHintSprite(WasteCategory category)
+    {
+        switch (category)
+        {
+            case WasteCategory.Recyclable:
+                return recyclableBinHintImage;
+            case WasteCategory.Biodegradable:
+                return biodegradableBinHintImage;
+            case WasteCategory.Residual:
+                return residualBinHintImage;
+            case WasteCategory.Hazardous:
+                return hazardousBinHintImage;
+            case WasteCategory.Infectious:
+                return infectiousBinHintImage;
+            default:
+                return null;
+        }
+    }
+
+    private void ShowBinHint(Sprite sprite)
+    {
+        if (sprite == null)
+        {
+            HideBinHint();
+            return;
+        }
+
+        if (binHintPanel == null || binHintImage == null)
+        {
+            Debug.LogWarning("GameUIManager: Bin hint panel or image is not assigned.");
+            return;
+        }
+
+        binHintImage.sprite = sprite;
+        binHintPanel.SetActive(true);
+    }
+
+    public void HideBinHint()
+    {
+        if (binHintPanel != null)
+            binHintPanel.SetActive(false);
+    }
+
+    private bool IsLandingPageActive()
+    {
+        return MiniGameDomain.IsAnyLandingPageShowing;
+    }
+
+    private bool IsBadgePopupActive()
+    {
+        return BadgeManager.Instance != null && BadgeManager.Instance.IsBadgePopupShowing;
+    }
+
+    private bool IsGamePopupActive()
+    {
+        return (resultPanel != null && resultPanel.activeInHierarchy) ||
+               (educationPanel != null && educationPanel.activeInHierarchy);
+    }
+
+    private bool IsBinHintBlocked()
+    {
+        return IsLandingPageActive() || IsBadgePopupActive() || IsGamePopupActive();
     }
 
     //==================================================

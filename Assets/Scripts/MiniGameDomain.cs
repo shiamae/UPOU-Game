@@ -22,6 +22,10 @@ public class MiniGameDomain : MonoBehaviour
  
     private bool isPlayerInside = false;
     private bool isPanelShowing = false;
+
+    private static int activeLandingPageCount = 0;
+
+    public static bool IsAnyLandingPageShowing => activeLandingPageCount > 0;
  
     private void Reset()
     {
@@ -84,6 +88,9 @@ public class MiniGameDomain : MonoBehaviour
  
     private void ShowLandingPage()
     {
+        if (isPanelShowing)
+            return;
+
         if (landingPagePanel == null)
         {
             Debug.LogWarning($"{name}: No landing page panel assigned on MiniGameDomain.");
@@ -92,6 +99,7 @@ public class MiniGameDomain : MonoBehaviour
  
         landingPagePanel.SetActive(true);
         isPanelShowing = true;
+        activeLandingPageCount++;
  
         if (pauseGameOnEnter)
         {
@@ -101,13 +109,31 @@ public class MiniGameDomain : MonoBehaviour
  
     public void HideLandingPage()
     {
+        if (!isPanelShowing)
+            return;
+
         if (landingPagePanel != null)
         {
             landingPagePanel.SetActive(false);
         }
  
         isPanelShowing = false;
+        activeLandingPageCount = Mathf.Max(0, activeLandingPageCount - 1);
  
+        if (pauseGameOnEnter)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!isPanelShowing)
+            return;
+
+        isPanelShowing = false;
+        activeLandingPageCount = Mathf.Max(0, activeLandingPageCount - 1);
+
         if (pauseGameOnEnter)
         {
             Time.timeScale = 1f;
