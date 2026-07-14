@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider))]
 public class MiniGameDomain : MonoBehaviour
@@ -22,10 +24,21 @@ public class MiniGameDomain : MonoBehaviour
  
     private bool isPlayerInside = false;
     private bool isPanelShowing = false;
-
     private static int activeLandingPageCount = 0;
+    private static MiniGameDomain hotkeyOwner;
+    private static bool manuallyHiddenByHotkey = false;
+    private static readonly List<MiniGameDomain> domains = new List<MiniGameDomain>();
 
     public static bool IsAnyLandingPageShowing => activeLandingPageCount > 0;
+
+    private void OnEnable()
+    {
+        if (!domains.Contains(this))
+            domains.Add(this);
+
+        if (hotkeyOwner == null && landingPagePanel != null)
+            hotkeyOwner = this;
+    }
  
     private void Reset()
     {
@@ -46,6 +59,9 @@ public class MiniGameDomain : MonoBehaviour
     {
         if (!other.CompareTag(playerTag)) return;
  
+        if (manuallyHiddenByHotkey)
+            return;
+
         // Re-check every frame the player stays inside, in case they were
         // holding/disposing trash on entry and only become "free" partway through.
         if (!isPanelShowing)
@@ -65,6 +81,26 @@ public class MiniGameDomain : MonoBehaviour
             HideLandingPage();
         }
     }
+
+    private void Update()
+    {
+        if (hotkeyOwner != this)
+            return;
+
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard == null)
+            return;
+
+        if (keyboard.hKey.wasPressedThisFrame)
+        {
+            ToggleLandingPage();
+        }
+        else if (keyboard.escapeKey.wasPressedThisFrame && IsAnyLandingPageShowing)
+        {
+            HideAllLandingPages();
+            manuallyHiddenByHotkey = true;
+        }
+    }
  
     private bool IsBlockedByTrashState()
     {
@@ -82,6 +118,7 @@ public class MiniGameDomain : MonoBehaviour
  
     private void TryShowLandingPage()
     {
+        if (manuallyHiddenByHotkey) return;
         if (IsBlockedByTrashState()) return;
         ShowLandingPage();
     }
@@ -126,8 +163,27 @@ public class MiniGameDomain : MonoBehaviour
         }
     }
 
+    public void ToggleLandingPage()
+    {
+        if (IsAnyLandingPageShowing)
+        {
+            HideAllLandingPages();
+            manuallyHiddenByHotkey = true;
+        }
+        else
+        {
+            manuallyHiddenByHotkey = false;
+            ShowLandingPage();
+        }
+    }
+
     private void OnDisable()
     {
+        domains.Remove(this);
+
+        if (hotkeyOwner == this)
+            hotkeyOwner = null;
+
         if (!isPanelShowing)
             return;
 
@@ -144,6 +200,18 @@ public class MiniGameDomain : MonoBehaviour
     // it to auto-close when the player walks away.
     public void OnCloseButtonPressed()
     {
-        HideLandingPage();
+        HideAllLandingPages();
+        manuallyHiddenByHotkey = true;
+    }
+
+    private static void HideAllLandingPages()
+    {
+        for (int i = 0; i < domains.Count; i++)
+        {
+            if (domains[i] != null)
+                domains[i].HideLandingPage();
+        }
+
+        activeLandingPageCount = 0;
     }
 }
