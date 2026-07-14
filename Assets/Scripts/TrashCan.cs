@@ -45,6 +45,7 @@ public class TrashCan : MonoBehaviour
             if (GameUIManager.Instance != null)
             {
                 GameUIManager.Instance.HideHint();
+                GameUIManager.Instance.PlayPositiveFeedback();
 
                 // Hide the object immediately
                 pickup.Hide();
@@ -78,6 +79,7 @@ public class TrashCan : MonoBehaviour
             // Show wrong result popup
             if (GameUIManager.Instance != null)
             {
+                GameUIManager.Instance.PlayNegativeFeedback();
                 GameUIManager.Instance.ShowResult(false, null, null);
             }
 

@@ -24,7 +24,17 @@ public class GameUIManager : MonoBehaviour
     [Header("Crosshair")]
     public GameObject crosshair;
 
+    [Header("Feedback Effects")]
+    public float correctFlashDuration = 0.2f;
+    public float wrongFlashDuration = 0.22f;
+    public float wrongShakeDuration = 0.18f;
+    public float wrongShakeMagnitude = 0.12f;
+    public Color correctFlashColor = new Color(1f, 1f, 1f, 0.25f);
+    public Color wrongFlashColor = new Color(1f, 0.2f, 0.2f, 0.2f);
+
     private Coroutine popupRoutine;
+    private Coroutine feedbackRoutine;
+    private Image feedbackOverlay;
 
     // Waste waiting to be disposed
     private PickupObject pendingPickup;
@@ -54,6 +64,29 @@ public class GameUIManager : MonoBehaviour
 
         if (educationPanel != null)
             educationPanel.SetActive(false);
+
+        if (feedbackOverlay == null)
+        {
+            GameObject overlayObject = new GameObject("FeedbackOverlay");
+            overlayObject.transform.SetParent(transform, false);
+
+            Canvas overlayCanvas = overlayObject.AddComponent<Canvas>();
+            overlayCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            overlayCanvas.sortingOrder = 1000;
+
+            overlayObject.AddComponent<CanvasScaler>();
+            overlayObject.AddComponent<GraphicRaycaster>();
+
+            feedbackOverlay = overlayObject.AddComponent<Image>();
+            feedbackOverlay.color = Color.clear;
+            feedbackOverlay.rectTransform.anchorMin = Vector2.zero;
+            feedbackOverlay.rectTransform.anchorMax = Vector2.one;
+            feedbackOverlay.rectTransform.offsetMin = Vector2.zero;
+            feedbackOverlay.rectTransform.offsetMax = Vector2.zero;
+        }
+
+        if (feedbackOverlay != null)
+            feedbackOverlay.gameObject.SetActive(false);
     }
 
     //==================================================
@@ -73,6 +106,80 @@ public class GameUIManager : MonoBehaviour
     {
         if (hintPanel != null)
             hintPanel.SetActive(false);
+    }
+
+    public void PlayPositiveFeedback()
+    {
+        if (feedbackOverlay == null)
+            return;
+
+        if (feedbackRoutine != null)
+            StopCoroutine(feedbackRoutine);
+
+        feedbackRoutine = StartCoroutine(PlayPositiveFeedbackRoutine());
+    }
+
+    public void PlayNegativeFeedback()
+    {
+        if (feedbackOverlay == null)
+            return;
+
+        if (feedbackRoutine != null)
+            StopCoroutine(feedbackRoutine);
+
+        feedbackRoutine = StartCoroutine(PlayNegativeFeedbackRoutine());
+    }
+
+    private IEnumerator PlayPositiveFeedbackRoutine()
+    {
+        feedbackOverlay.gameObject.SetActive(true);
+        feedbackOverlay.color = correctFlashColor;
+
+        float elapsed = 0f;
+        while (elapsed < correctFlashDuration)
+        {
+            float alpha = Mathf.Lerp(correctFlashColor.a, 0f, elapsed / correctFlashDuration);
+            feedbackOverlay.color = new Color(correctFlashColor.r, correctFlashColor.g, correctFlashColor.b, alpha);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        feedbackOverlay.color = Color.clear;
+        feedbackOverlay.gameObject.SetActive(false);
+    }
+
+    private IEnumerator PlayNegativeFeedbackRoutine()
+    {
+        feedbackOverlay.gameObject.SetActive(true);
+        feedbackOverlay.color = wrongFlashColor;
+
+        Camera mainCamera = Camera.main;
+        Vector3 originalPosition = mainCamera != null ? mainCamera.transform.localPosition : Vector3.zero;
+
+        Handheld.Vibrate();
+
+        float elapsed = 0f;
+        while (elapsed < wrongShakeDuration)
+        {
+            float alpha = Mathf.Lerp(wrongFlashColor.a, 0f, elapsed / wrongShakeDuration);
+            feedbackOverlay.color = new Color(wrongFlashColor.r, wrongFlashColor.g, wrongFlashColor.b, alpha);
+
+            if (mainCamera != null)
+            {
+                Vector3 offset = Random.insideUnitSphere * wrongShakeMagnitude;
+                offset.z = 0f;
+                mainCamera.transform.localPosition = originalPosition + offset;
+            }
+
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        if (mainCamera != null)
+            mainCamera.transform.localPosition = originalPosition;
+
+        feedbackOverlay.color = Color.clear;
+        feedbackOverlay.gameObject.SetActive(false);
     }
 
     //==================================================
