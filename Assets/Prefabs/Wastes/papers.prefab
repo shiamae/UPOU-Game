@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Papers
   category: 0
+  wasteType: 1
   hintImage: {fileID: 21300000, guid: 1d9b786b30d7acd4bb95430d3dd53281, type: 3}
   educationImage: {fileID: 21300000, guid: 7aaae207a20fcaa42803a821e90bf59d, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 518c4a5397375684da7b3adc44118875, type: 3}

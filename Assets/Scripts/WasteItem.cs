@@ -5,6 +5,7 @@ public class WasteItem : MonoBehaviour
     public string itemName;
 
     public WasteCategory category;
+    public WasteType wasteType = WasteType.None;
 
     [Header("UI Images")]
     public Sprite hintImage;
