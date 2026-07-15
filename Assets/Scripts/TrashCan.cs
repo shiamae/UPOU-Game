@@ -9,6 +9,18 @@ public class TrashCan : MonoBehaviour
     public int correctPoints = 10;
     public int wrongPoints = -5;
 
+    private void OnMouseEnter()
+    {
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.NotifyBinHoverEnter(this);
+    }
+
+    private void OnMouseExit()
+    {
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.NotifyBinHoverExit(this);
+    }
+
     public void TryDispose(PickupObject pickup)
     {
         if (pickup == null)
@@ -45,6 +57,7 @@ public class TrashCan : MonoBehaviour
             if (GameUIManager.Instance != null)
             {
                 GameUIManager.Instance.HideHint();
+                GameUIManager.Instance.PlayPositiveFeedback();
 
                 // Hide the object immediately
                 pickup.Hide();
@@ -78,6 +91,7 @@ public class TrashCan : MonoBehaviour
             // Show wrong result popup
             if (GameUIManager.Instance != null)
             {
+                GameUIManager.Instance.PlayNegativeFeedback();
                 GameUIManager.Instance.ShowResult(false, null, null);
             }
 

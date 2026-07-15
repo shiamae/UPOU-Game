@@ -43,6 +43,15 @@ public class BadgeManager : MonoBehaviour
     // Badge waiting to be shown after the education popup closes
     private Badge pendingBadge;
 
+    public bool IsBadgePopupShowing
+    {
+        get
+        {
+            return (notificationPanel != null && notificationPanel.activeInHierarchy) ||
+                   (badgeCollectionPanel != null && badgeCollectionPanel.activeInHierarchy);
+        }
+    }
+
     private void Awake()
     {
         if (Instance == null)

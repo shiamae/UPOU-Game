@@ -829,7 +829,9 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 1
   webEnableSubmoduleStrippingCompatibility: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: APP_UI_EDITOR_ONLY;SENTIS_ANALYTICS_ENABLED
+    Standalone: SENTIS_ANALYTICS_ENABLED;APP_UI_EDITOR_ONLY
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -929,11 +931,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: c839e4e4-6dc7-4173-b5ae-4aac80cf0d0e
+  cloudProjectId: 1e6c57c5-017b-41c9-93c9-0b7e45522274
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: UPOU Gameplan
-  organizationId: tgbasmayor
+  projectName: UPOU-Game
+  organizationId: joshuaalinsolorin
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
