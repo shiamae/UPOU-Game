@@ -19,6 +19,11 @@ public class PlayerPickup : MonoBehaviour
         return Time.time - lastDisposeTime < withinSeconds;
     }
 
+    public PickupObject HeldObject => heldObject;
+
+    public WasteItem HeldWasteItem =>
+        heldObject != null ? heldObject.GetComponent<WasteItem>() : null;
+
     private void Awake()
     {
         Instance = this;

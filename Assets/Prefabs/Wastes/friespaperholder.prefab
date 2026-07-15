@@ -201,3 +201,4 @@ MonoBehaviour:
   category: 2
   hintImage: {fileID: 21300000, guid: 4445299d0111205499aa5617cc483c8f, type: 3}
   educationImage: {fileID: 21300000, guid: 19dd8e03391c55d42a8bc228a60ba678, type: 3}
+  inventoryIcon: {fileID: 21300000, guid: c32eb2251ea72534fbe0773f78fd6dc8, type: 3}

@@ -152,6 +152,7 @@ MonoBehaviour:
   category: 1
   hintImage: {fileID: 21300000, guid: 2a3607088a686ce42be1ed87b827ae2e, type: 3}
   educationImage: {fileID: 21300000, guid: ac5da435d1999e64d9368f92cbfc74a1, type: 3}
+  inventoryIcon: {fileID: 21300000, guid: 67871349f41aba14f8ce2961cc344a18, type: 3}
 --- !u!114 &8813953226170217181
 MonoBehaviour:
   m_ObjectHideFlags: 0
