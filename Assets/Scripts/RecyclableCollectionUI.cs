@@ -58,18 +58,18 @@ public class RecyclableCollectionUI : MonoBehaviour
         if (Keyboard.current == null)
             return;
 
-        // Don't allow opening while another popup has paused the game
+        // Don't allow opening while another popup paused the game
         if (Time.timeScale == 0f && !isOpen)
             return;
 
-        if (!isOpen && Keyboard.current.rKey.wasPressedThisFrame)
+        if (!isOpen && Keyboard.current.cKey.wasPressedThisFrame)
         {
             OpenCollection();
         }
     }
 
     //==================================================
-    // Open / Close Collection
+    // OPEN / CLOSE
     //==================================================
 
     public void OpenCollection()
@@ -94,7 +94,6 @@ public class RecyclableCollectionUI : MonoBehaviour
         isOpen = true;
     }
 
-    // Assign this to the X button
     public void CloseCollection()
     {
         if (collectionPanel == null)
@@ -118,7 +117,7 @@ public class RecyclableCollectionUI : MonoBehaviour
     }
 
     //==================================================
-    // Initialization
+    // INITIALIZATION
     //==================================================
 
     private void InitializeCollection()
@@ -129,7 +128,7 @@ public class RecyclableCollectionUI : MonoBehaviour
     }
 
     //==================================================
-    // Unlocks
+    // UNLOCKS
     //==================================================
 
     public void UnlockNotebook()
@@ -148,7 +147,7 @@ public class RecyclableCollectionUI : MonoBehaviour
     }
 
     //==================================================
-    // Locks
+    // LOCKS
     //==================================================
 
     public void LockNotebook()
@@ -166,8 +165,35 @@ public class RecyclableCollectionUI : MonoBehaviour
         SetButtonState(deskOrganizerButton, deskOrganizerLockOverlay, false);
     }
 
+        //==================================================
+    // COLLECTION BUTTONS
     //==================================================
-    // Helper
+
+    public void OpenNotebook()
+    {
+        AudioManager.Instance?.PlayButtonClick();
+        collectionPanel.SetActive(false);
+        CraftingManager.Instance?.OpenNotebookCraft();
+    }
+
+    public void OpenPencilHolder()
+    {
+        Debug.Log("OpenPencilHolder() called");
+        AudioManager.Instance?.PlayButtonClick();
+        collectionPanel.SetActive(false);
+        Debug.Log("CraftingManager = " + CraftingManager.Instance);
+        CraftingManager.Instance?.OpenPencilHolderCraft();
+    }
+
+    public void OpenDeskOrganizer()
+    {
+        AudioManager.Instance?.PlayButtonClick();
+        collectionPanel.SetActive(false);
+        CraftingManager.Instance?.OpenDeskOrganizerCraft();
+    }
+
+    //==================================================
+    // HELPER
     //==================================================
 
     private void SetButtonState(Button button, Image overlay, bool unlocked)

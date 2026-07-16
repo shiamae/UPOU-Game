@@ -7,5 +7,8 @@ public enum WasteType
     GlassBottle,
     AluminumCan,
     MilkCarton,
-    PaperBag
+    PaperBag,
+    Notebook,
+    PencilHolder,
+    DeskOrganizer
 }
