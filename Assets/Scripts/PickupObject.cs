@@ -7,6 +7,8 @@ public class PickupObject : MonoBehaviour
     private Rigidbody rb;
     private Collider col;
 
+    private Renderer[] renderers;
+
     private Transform originalParent;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
@@ -24,15 +26,24 @@ public class PickupObject : MonoBehaviour
     public bool IsHeld { get; private set; }
     public bool IsDisposed { get; private set; }
 
+    //==================================================
+    // Throw Control
+    //==================================================
+
+    public bool CanThrow { get; private set; } = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+
+        renderers = GetComponentsInChildren<Renderer>(true);
     }
 
     public void PickUp(Transform holdPoint)
     {
         IsHeld = true;
+        CanThrow = true;
 
         // Save original transform
         originalParent = transform.parent;
@@ -40,41 +51,23 @@ public class PickupObject : MonoBehaviour
         originalRotation = transform.rotation;
         originalScale = transform.localScale;
 
-        // Stop all movement BEFORE making the Rigidbody kinematic
+        // Stop movement
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Disable physics
         rb.isKinematic = true;
-
-        // Disable collider while holding
         col.enabled = false;
 
-        // Parent to the HoldPoint
         transform.SetParent(holdPoint);
 
-        // Apply this prefab's hold settings
         transform.localPosition = holdPosition;
         transform.localRotation = Quaternion.Euler(holdRotation);
         transform.localScale = holdScale;
 
+        // Ensure object is visible when picked up
+        SetHeldVisible(true);
+
         Debug.Log($"Picked up {name}");
-
-        Debug.Log("Trying to play pickup sound.");
-
-        if (AudioManager.Instance == null)
-        {
-            Debug.LogError("AudioManager.Instance is NULL!");
-        }
-        else if (pickupSound == null)
-        {
-            Debug.LogError("Pickup Sound is NULL!");
-        }
-        else
-        {
-            Debug.Log("Playing: " + pickupSound.name);
-            AudioManager.Instance.PlaySound(pickupSound);
-        }
 
         if (AudioManager.Instance != null && pickupSound != null)
         {
@@ -85,10 +78,10 @@ public class PickupObject : MonoBehaviour
     public void Release()
     {
         IsHeld = false;
+        CanThrow = true;
 
         transform.SetParent(null);
 
-        // Keep the current world transform
         Vector3 currentPos = transform.position;
         Quaternion currentRot = transform.rotation;
 
@@ -99,6 +92,8 @@ public class PickupObject : MonoBehaviour
 
         rb.isKinematic = false;
         col.enabled = true;
+
+        SetHeldVisible(true);
 
         Debug.Log($"Released {name}");
 
@@ -121,21 +116,38 @@ public class PickupObject : MonoBehaviour
     {
         IsHeld = false;
 
-        // Detach from the player's hand
         transform.SetParent(null);
 
-        // Disable physics
         rb.isKinematic = true;
         col.enabled = false;
 
-        // Hide all renderers on this object
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        SetHeldVisible(false);
+
+        Debug.Log($"{name} hidden.");
+    }
+
+    //==================================================
+    // Inventory Visibility
+    //==================================================
+
+    public void SetHeldVisible(bool visible)
+    {
+        if (renderers == null)
+            return;
 
         foreach (Renderer r in renderers)
         {
-            r.enabled = false;
+            if (r != null)
+                r.enabled = visible;
         }
+    }
 
-        Debug.Log($"{name} hidden.");
+    //==================================================
+    // Throw Enable / Disable
+    //==================================================
+
+    public void SetCanThrow(bool canThrow)
+    {
+        CanThrow = canThrow;
     }
 }

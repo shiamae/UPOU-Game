@@ -14,19 +14,25 @@ public class PlayerPickup : MonoBehaviour
     public bool IsHoldingObject => heldObject != null;
 
     private float lastDisposeTime = -10f;
+
     public bool RecentlyDisposedTrash(float withinSeconds = 1.5f)
     {
         return Time.time - lastDisposeTime < withinSeconds;
     }
+
+    public PickupObject HeldObject => heldObject;
+
+    public WasteItem HeldWasteItem =>
+        heldObject != null ? heldObject.GetComponent<WasteItem>() : null;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    void Update()
+    private void Update()
     {
-        // Don't allow interaction while the education popup is open
+        // Don't allow interaction while menus are open
         if (Time.timeScale == 0f)
             return;
 
@@ -46,6 +52,17 @@ public class PlayerPickup : MonoBehaviour
         //================================================
         if (heldObject != null)
         {
+            //================================================
+            // NEW:
+            // Ignore all clicks unless the player
+            // is currently using Slot 1 (Waste)
+            //================================================
+            if (HeldCraftItemUI.Instance != null &&
+                HeldCraftItemUI.Instance.CurrentSlot != 1)
+            {
+                return;
+            }
+
             Debug.Log("Hit: " + hit.collider.name);
 
             TrashCan trashCan = hit.collider.GetComponentInParent<TrashCan>();
@@ -59,13 +76,13 @@ public class PlayerPickup : MonoBehaviour
                 Debug.Log("No TrashCan found.");
             }
 
-            // Player clicked a trash can
+            //=========================================
+            // Dispose into trash can
+            //=========================================
             if (trashCan != null)
             {
                 trashCan.TryDispose(heldObject);
 
-                // If the object has been hidden/disposed,
-                // stop treating it as the held object.
                 if (heldObject == null ||
                     heldObject.IsDisposed ||
                     !heldObject.gameObject.activeInHierarchy)
@@ -77,11 +94,12 @@ public class PlayerPickup : MonoBehaviour
                 return;
             }
 
-            // Player clicked somewhere else -> drop the object
+            //=========================================
+            // Drop object
+            //=========================================
             heldObject.Release();
 
-            if (GameUIManager.Instance != null)
-                GameUIManager.Instance.HideHint();
+            GameUIManager.Instance?.HideHint();
 
             heldObject = null;
 
@@ -99,15 +117,16 @@ public class PlayerPickup : MonoBehaviour
 
             pickup.PickUp(holdPoint);
 
-            Debug.Log("Returned from PickUp().");
-
             heldObject = pickup;
+
+            // Automatically return to the waste slot
+            HeldCraftItemUI.Instance?.SwitchToWasteSlot();
 
             WasteItem waste = pickup.GetComponent<WasteItem>();
 
-            if (waste != null && GameUIManager.Instance != null)
+            if (waste != null)
             {
-                GameUIManager.Instance.ShowHint(waste);
+                GameUIManager.Instance?.ShowHint(waste);
             }
 
             Debug.Log("Picked up " + pickup.name);

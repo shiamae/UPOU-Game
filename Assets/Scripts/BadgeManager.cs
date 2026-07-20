@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class BadgeManager : MonoBehaviour
@@ -32,25 +31,23 @@ public class BadgeManager : MonoBehaviour
     public Image notificationImage;
     public float notificationDuration = 3f;
 
-    [Header("Badge Collection")]
-    public GameObject badgeCollectionPanel;
-
     [Header("HUD Badge Icons")]
     public Image[] badgeSlots;
+
+    [Header("Crosshair")]
+    public GameObject crosshair;
 
     private Coroutine notificationRoutine;
 
     // Badge waiting to be shown after the education popup closes
     private Badge pendingBadge;
 
-    public bool IsBadgePopupShowing
-    {
-        get
-        {
-            return (notificationPanel != null && notificationPanel.activeInHierarchy) ||
-                   (badgeCollectionPanel != null && badgeCollectionPanel.activeInHierarchy);
-        }
-    }
+    /// <summary>
+    /// True while the badge unlock notification popup is on screen.
+    /// The full badge collection is now shown inside InventoryManager instead.
+    /// </summary>
+    public bool IsBadgePopupShowing =>
+        notificationPanel != null && notificationPanel.activeInHierarchy;
 
     private void Awake()
     {
@@ -67,21 +64,7 @@ public class BadgeManager : MonoBehaviour
         if (notificationPanel != null)
             notificationPanel.SetActive(false);
 
-        if (badgeCollectionPanel != null)
-            badgeCollectionPanel.SetActive(false);
-
         RefreshHUD();
-    }
-
-    private void Update()
-    {
-        if (Keyboard.current == null)
-            return;
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            ToggleBadgeCollection();
-        }
     }
 
     //==================================================
@@ -111,6 +94,10 @@ public class BadgeManager : MonoBehaviour
         badge.unlocked = true;
 
         RefreshHUD();
+
+        // Fill the badge into the next open inventory slot
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.RefreshBadgeSlots();
 
         // Save the badge for later.
         // It will appear after the education popup closes.
@@ -160,37 +147,14 @@ public class BadgeManager : MonoBehaviour
 
     private IEnumerator HideNotification()
     {
+        if (crosshair != null)
+            crosshair.SetActive(false);
         yield return new WaitForSeconds(notificationDuration);
 
         if (notificationPanel != null)
             notificationPanel.SetActive(false);
-    }
-
-    //==================================================
-    // Badge Collection
-    //==================================================
-
-    public void ToggleBadgeCollection()
-    {
-        if (badgeCollectionPanel == null)
-            return;
-
-        bool open = !badgeCollectionPanel.activeSelf;
-
-        badgeCollectionPanel.SetActive(open);
-
-        if (open)
-        {
-            Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+            if (crosshair != null)
+                crosshair.SetActive(true);
     }
 
     //==================================================

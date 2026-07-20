@@ -47,6 +47,12 @@ public class TrashCan : MonoBehaviour
                 ScoreManager.Instance.AddPoints(correctPoints);
             }
 
+            // Update quest progress
+            if (QuestManager.Instance != null)
+            {
+                QuestManager.Instance.RegisterRecycle(waste);
+            }
+
             // Play correct disposal sound
             if (AudioManager.Instance != null)
             {
