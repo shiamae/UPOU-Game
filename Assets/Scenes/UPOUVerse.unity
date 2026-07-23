@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
   quests:
-  - wasteType: 1
+  - wasteType: 19
     requiredAmount: 5
     reward: 0
     questImage: {fileID: 977505942}
@@ -474,7 +474,7 @@ MonoBehaviour:
     discovered: 0
     completed: 0
     currentAmount: 0
-  - wasteType: 2
+  - wasteType: 20
     requiredAmount: 2
     reward: 1
     questImage: {fileID: 1161933926}
@@ -486,7 +486,7 @@ MonoBehaviour:
     discovered: 0
     completed: 0
     currentAmount: 0
-  - wasteType: 5
+  - wasteType: 23
     requiredAmount: 3
     reward: 2
     questImage: {fileID: 2049993002}
