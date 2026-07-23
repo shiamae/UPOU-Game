@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip buttonClickSound;
     public AudioClip badgeUnlockSound;
     public AudioClip craftCompleteSound;
+    public AudioClip inventoryScrollSound;
 
     [Header("Footstep SFX")]
     public AudioClip[] concreteFootsteps;
@@ -90,5 +91,10 @@ public class AudioManager : MonoBehaviour
 
         AudioClip clip = grassFootsteps[Random.Range(0, grassFootsteps.Length)];
         PlaySound(clip, 0.6f);
+    }
+
+    public void PlayInventoryScroll()
+    {
+        PlaySound(inventoryScrollSound, 0.7f);
     }
 }

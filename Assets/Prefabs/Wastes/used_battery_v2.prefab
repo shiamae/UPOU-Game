@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Used Battery
   category: 3
+  wasteType: 17
   hintImage: {fileID: 21300000, guid: 09b9d52a678f8584ba1a2ae5a5c8b5ca, type: 3}
   educationImage: {fileID: 21300000, guid: 3df745f5bfcbed04493835b912928120, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 03dfa2a76d0ddb8459c30a8bbfb87495, type: 3}

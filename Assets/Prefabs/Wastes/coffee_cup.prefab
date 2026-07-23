@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Coffee Cup
   category: 2
+  wasteType: 6
   hintImage: {fileID: 21300000, guid: c86d15ef9d617a644bb2d013c5371691, type: 3}
   educationImage: {fileID: 21300000, guid: 09d9baf938c5bfd479852c159465beda, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 5e73584ea2afc7a4494b308b5cc6fe28, type: 3}

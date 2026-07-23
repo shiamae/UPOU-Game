@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Used Gloves
   category: 4
+  wasteType: 18
   hintImage: {fileID: 21300000, guid: 5e846c41b15f6af43b1381be458ec022, type: 3}
   educationImage: {fileID: 21300000, guid: 23bc3f297f81b2d47a77a71a78291712, type: 3}
   inventoryIcon: {fileID: 21300000, guid: cb670a9af35486b41acab0d8f55effb5, type: 3}

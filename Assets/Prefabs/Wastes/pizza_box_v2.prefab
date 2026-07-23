@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Greasy Pizza Box
   category: 2
+  wasteType: 11
   hintImage: {fileID: 21300000, guid: 8a2bc2d3cc511764187b5bdea6fe41f1, type: 3}
   educationImage: {fileID: 21300000, guid: b6229de37309dde4d85787cc817a1427, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 4649507ff9e9bf547a701bd7811ac181, type: 3}
