@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Egg Shells
   category: 1
+  wasteType: 4
   hintImage: {fileID: 21300000, guid: e73ee58a629cef2429d89bf393e34466, type: 3}
   educationImage: {fileID: 21300000, guid: e96cdd74966bcd44eb1cf96ed2bf5c23, type: 3}
   inventoryIcon: {fileID: 21300000, guid: beb326661b032ec4ab8624c1ac136a29, type: 3}

@@ -11,14 +11,12 @@ public class TrashCan : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (GameUIManager.Instance != null)
-            GameUIManager.Instance.NotifyBinHoverEnter(this);
+        GameUIManager.Instance?.NotifyBinHoverEnter(this);
     }
 
     private void OnMouseExit()
     {
-        if (GameUIManager.Instance != null)
-            GameUIManager.Instance.NotifyBinHoverExit(this);
+        GameUIManager.Instance?.NotifyBinHoverExit(this);
     }
 
     public void TryDispose(PickupObject pickup)
@@ -34,75 +32,55 @@ public class TrashCan : MonoBehaviour
             return;
         }
 
-        //==================================
-        // Correct bin
-        //==================================
+        //==================================================
+        // CORRECT BIN
+        //==================================================
         if (waste.category == acceptedCategory)
         {
             Debug.Log($"Correct bin! +{correctPoints} points");
 
             // Add points
-            if (ScoreManager.Instance != null)
-            {
-                ScoreManager.Instance.AddPoints(correctPoints);
-            }
+            ScoreManager.Instance?.AddPoints(correctPoints);
 
             // Update quest progress
-            if (QuestManager.Instance != null)
-            {
-                QuestManager.Instance.RegisterRecycle(waste);
-            }
+            QuestManager.Instance?.RegisterRecycle(waste);
 
             // Play correct disposal sound
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayCorrectDispose();
-            }
+            AudioManager.Instance?.PlayCorrectDispose();
 
-            // Hide the hint popup
-            if (GameUIManager.Instance != null)
-            {
-                GameUIManager.Instance.HideHint();
-                GameUIManager.Instance.PlayPositiveFeedback();
+            // Hide hint panels
+            GameUIManager.Instance?.HideHint();
+            GameUIManager.Instance?.HideMiniInfo();
 
-                // Hide the object immediately
-                pickup.Hide();
+            // Positive feedback
+            GameUIManager.Instance?.PlayPositiveFeedback();
 
-                // Show result popup
-                // Education popup and final disposal
-                // are handled by the GameUIManager.
-                GameUIManager.Instance.ShowResult(true, waste, pickup);
-            }
+            // Hide the held object immediately
+            pickup.Hide();
+
+            // ALWAYS let GameUIManager handle
+            // whether this is the first time or not.
+            GameUIManager.Instance?.ShowResult(true, waste, pickup);
         }
 
-        //==================================
-        // Wrong bin
-        //==================================
+        //==================================================
+        // WRONG BIN
+        //==================================================
         else
         {
             Debug.Log($"Wrong bin! {wrongPoints} points");
 
             // Subtract points
-            if (ScoreManager.Instance != null)
-            {
-                ScoreManager.Instance.AddPoints(wrongPoints);
-            }
+            ScoreManager.Instance?.AddPoints(wrongPoints);
 
             // Play wrong disposal sound
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayWrongDispose();
-            }
+            AudioManager.Instance?.PlayWrongDispose();
 
-            // Show wrong result popup
-            if (GameUIManager.Instance != null)
-            {
-                GameUIManager.Instance.PlayNegativeFeedback();
-                GameUIManager.Instance.ShowResult(false, null, null);
-            }
+            GameUIManager.Instance?.PlayNegativeFeedback();
+            GameUIManager.Instance?.ShowResult(false, null, null);
 
             // Keep holding the object so the player
-            // can try another trash can.
+            // can try another bin.
         }
     }
 }

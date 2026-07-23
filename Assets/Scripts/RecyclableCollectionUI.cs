@@ -62,9 +62,12 @@ public class RecyclableCollectionUI : MonoBehaviour
         if (Time.timeScale == 0f && !isOpen)
             return;
 
-        if (!isOpen && Keyboard.current.cKey.wasPressedThisFrame)
+        if (Keyboard.current.cKey.wasPressedThisFrame)
         {
-            OpenCollection();
+            if (isOpen)
+                CloseCollection();
+            else
+                OpenCollection();
         }
     }
 
@@ -78,6 +81,10 @@ public class RecyclableCollectionUI : MonoBehaviour
             return;
 
         AudioManager.Instance?.PlayButtonClick();
+
+        // Hide any waste UI while the collection is open
+        GameUIManager.Instance?.HideHint();
+        GameUIManager.Instance?.HideMiniInfo();
 
         collectionPanel.SetActive(true);
 
@@ -109,6 +116,23 @@ public class RecyclableCollectionUI : MonoBehaviour
             crosshair.SetActive(true);
 
         Time.timeScale = 1f;
+
+        // Restore the correct waste UI if the player is holding waste
+        PickupObject held = PlayerPickup.Instance?.HeldObject;
+
+        if (held != null && HeldCraftItemUI.Instance != null &&
+            HeldCraftItemUI.Instance.CurrentSlot == 1)
+        {
+            WasteItem waste = held.GetComponent<WasteItem>();
+
+            if (waste != null)
+            {
+                if (WasteLearningManager.Instance.HasLearned(waste.wasteType))
+                    GameUIManager.Instance?.ShowMiniInfo(waste);
+                else
+                    GameUIManager.Instance?.ShowHint(waste);
+            }
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

@@ -100,6 +100,7 @@ public class PlayerPickup : MonoBehaviour
             heldObject.Release();
 
             GameUIManager.Instance?.HideHint();
+            GameUIManager.Instance?.HideMiniInfo();
 
             heldObject = null;
 
@@ -126,7 +127,18 @@ public class PlayerPickup : MonoBehaviour
 
             if (waste != null)
             {
-                GameUIManager.Instance?.ShowHint(waste);
+                if (WasteLearningManager.Instance != null &&
+                    WasteLearningManager.Instance.HasLearned(waste.wasteType))
+                {
+                    // Player has already learned this waste.
+                    // Show the non-pausing mini info panel.
+                    GameUIManager.Instance?.ShowMiniInfo(waste);
+                }
+                else
+                {
+                    // First time encountering this waste.
+                    GameUIManager.Instance?.ShowHint(waste);
+                }
             }
 
             Debug.Log("Picked up " + pickup.name);

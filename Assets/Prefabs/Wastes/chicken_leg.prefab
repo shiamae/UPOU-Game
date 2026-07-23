@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Chicken Leg
   category: 1
+  wasteType: 5
   hintImage: {fileID: 21300000, guid: d3cbb330c00a0604bbe4001d31f15a6f, type: 3}
   educationImage: {fileID: 21300000, guid: da89d6536cc662a4190fa07be6f42d6b, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 7aa44869f9e91824a8556ce35dea6839, type: 3}

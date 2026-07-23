@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Used Bandaid
   category: 4
+  wasteType: 3
   hintImage: {fileID: 21300000, guid: 4ac635636443adc41b23e380b31c017d, type: 3}
   educationImage: {fileID: 21300000, guid: c0624fbebc55560459cafec15504911d, type: 3}
   inventoryIcon: {fileID: 21300000, guid: d0432903b5f2cf74f9fe0ebf51b71090, type: 3}

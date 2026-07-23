@@ -36,20 +36,15 @@ public class HeldCraftItemUI : MonoBehaviour
         if (Mouse.current == null)
             return;
 
-        // Don't switch while a menu is open
         if (Time.timeScale == 0f)
             return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
 
         if (scroll > 0f)
-        {
             PreviousSlot();
-        }
         else if (scroll < 0f)
-        {
             NextSlot();
-        }
     }
 
     //==================================================
@@ -69,6 +64,7 @@ public class HeldCraftItemUI : MonoBehaviour
 
         } while (!IsSlotAvailable(currentSlot) && currentSlot != startSlot);
 
+        AudioManager.Instance?.PlayInventoryScroll();
         EquipCurrentSlot();
     }
 
@@ -85,6 +81,7 @@ public class HeldCraftItemUI : MonoBehaviour
 
         } while (!IsSlotAvailable(currentSlot) && currentSlot != startSlot);
 
+        AudioManager.Instance?.PlayInventoryScroll();
         EquipCurrentSlot();
     }
 
@@ -95,6 +92,7 @@ public class HeldCraftItemUI : MonoBehaviour
     private void EquipCurrentSlot()
     {
         HideAll();
+
         PickupObject held = PlayerPickup.Instance?.HeldObject;
 
         if (held != null)
@@ -104,28 +102,48 @@ public class HeldCraftItemUI : MonoBehaviour
             held.SetHeldVisible(usingWasteSlot);
             held.SetCanThrow(usingWasteSlot);
 
+            WasteItem waste = held.GetComponent<WasteItem>();
+
             if (GameUIManager.Instance != null)
             {
                 if (usingWasteSlot)
                 {
-                    WasteItem waste = held.GetComponent<WasteItem>();
-
                     if (waste != null)
-                        GameUIManager.Instance.ShowHint(waste);
+                    {
+                        if (WasteLearningManager.Instance != null &&
+                            WasteLearningManager.Instance.HasLearned(waste.wasteType))
+                        {
+                            // Already learned
+                            GameUIManager.Instance.HideHint();
+                            GameUIManager.Instance.ShowMiniInfo(waste);
+                        }
+                        else
+                        {
+                            // First time
+                            GameUIManager.Instance.HideMiniInfo();
+                            GameUIManager.Instance.ShowHint(waste);
+                        }
+                    }
                 }
                 else
                 {
+                    // Leaving the waste slot
                     GameUIManager.Instance.HideHint();
+                    GameUIManager.Instance.HideMiniInfo();
                 }
             }
         }
-
-        AudioManager.Instance?.PlayButtonClick();
+        else
+        {
+            // No held waste
+            GameUIManager.Instance?.HideHint();
+            GameUIManager.Instance?.HideMiniInfo();
+        }
 
         switch (currentSlot)
         {
             case 1:
-                // Waste item handled elsewhere.
+                // Waste handled above
                 break;
 
             case 2:

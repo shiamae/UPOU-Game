@@ -10,6 +10,7 @@ public class GameUIManager : MonoBehaviour
     [Header("Hint Popup")]
     public GameObject hintPanel;
     public Image hintImage;
+    public GameObject hintInstructionImage;
 
     [Header("Bin Hint Popup")]
     public GameObject binHintPanel;
@@ -30,6 +31,11 @@ public class GameUIManager : MonoBehaviour
     [Header("Education Popup")]
     public GameObject educationPanel;
     public Image educationImage;
+
+    [Header("Mini Info Panel")]
+    public GameObject miniInfoPanel;
+    public Image miniInfoImage;
+    public GameObject miniInfoInstructionImage;
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -70,6 +76,9 @@ public class GameUIManager : MonoBehaviour
 
         if (hintPanel != null)
             hintPanel.SetActive(false);
+        
+        if (hintInstructionImage != null)
+            hintInstructionImage.SetActive(false);
 
         if (binHintPanel != null)
             binHintPanel.SetActive(false);
@@ -79,6 +88,12 @@ public class GameUIManager : MonoBehaviour
 
         if (educationPanel != null)
             educationPanel.SetActive(false);
+        
+        if (miniInfoPanel != null)
+            miniInfoPanel.SetActive(false);
+        
+        if (miniInfoInstructionImage != null)
+            miniInfoInstructionImage.SetActive(false);
 
         if (feedbackOverlay == null)
         {
@@ -106,6 +121,7 @@ public class GameUIManager : MonoBehaviour
 
     private void Update()
     {
+        HandleCursorToggle();
         if (IsBinHintBlocked())
         {
             HideBinHint();
@@ -116,6 +132,12 @@ public class GameUIManager : MonoBehaviour
             ShowBinHint(hoveredBin.acceptedCategory);
 
         HandleBinHintInput();
+
+        if (Keyboard.current != null &&
+            Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            ToggleWasteInfo();
+        }
     }
 
     private void HandleBinHintInput()
@@ -254,14 +276,45 @@ public class GameUIManager : MonoBehaviour
         if (waste == null || waste.hintImage == null)
             return;
 
+        HideMiniInfo();
+
         hintImage.sprite = waste.hintImage;
         hintPanel.SetActive(true);
+
+        if (hintInstructionImage != null)
+            hintInstructionImage.SetActive(true);
     }
 
     public void HideHint()
     {
         if (hintPanel != null)
             hintPanel.SetActive(false);
+
+        if (hintInstructionImage != null)
+            hintInstructionImage.SetActive(false);
+    }
+
+    public void ShowMiniInfo(WasteItem waste)
+    {
+        if (waste == null || waste.educationImage == null)
+            return;
+
+        HideHint();
+
+        miniInfoImage.sprite = waste.educationImage;
+        miniInfoPanel.SetActive(true);
+
+        if (miniInfoInstructionImage != null)
+            miniInfoInstructionImage.SetActive(true);
+    }
+
+    public void HideMiniInfo()
+    {
+        if (miniInfoPanel != null)
+            miniInfoPanel.SetActive(false);
+
+        if (miniInfoInstructionImage != null)
+            miniInfoInstructionImage.SetActive(false);
     }
 
     public void PlayPositiveFeedback()
@@ -312,7 +365,9 @@ public class GameUIManager : MonoBehaviour
         Camera mainCamera = Camera.main;
         Vector3 originalPosition = mainCamera != null ? mainCamera.transform.localPosition : Vector3.zero;
 
+        #if UNITY_ANDROID || UNITY_IOS
         Handheld.Vibrate();
+        #endif
 
         float elapsed = 0f;
         while (elapsed < wrongShakeDuration)
@@ -369,10 +424,39 @@ public class GameUIManager : MonoBehaviour
             yield break;
         }
 
-        // Correct disposal -> show education popup.
-        if (waste != null)
+        if (waste == null)
+            yield break;
+
+        bool firstTime =
+            WasteLearningManager.Instance != null &&
+            !WasteLearningManager.Instance.HasLearned(waste.wasteType);
+
+        if (firstTime)
         {
+            // First successful recycle of this waste.
+            WasteLearningManager.Instance.Learn(waste.wasteType);
+
             ShowEducation(waste);
+        }
+        else
+        {
+            // Already learned.
+            // Skip the education popup.
+            HideMiniInfo();
+
+            if (pendingPickup != null)
+            {
+                pendingPickup.Dispose();
+                pendingPickup = null;
+            }
+
+            if (playerPickup != null)
+            {
+                playerPickup.ClearHeldObject();
+            }
+
+            // Badge system should still run.
+            BadgeManager.Instance?.ShowPendingBadge();
         }
     }
 
@@ -382,6 +466,7 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowEducation(WasteItem waste)
     {
+        HideMiniInfo();
         if (waste == null || waste.educationImage == null)
             return;
 
@@ -450,6 +535,71 @@ public class GameUIManager : MonoBehaviour
         if (BadgeManager.Instance != null)
         {
             BadgeManager.Instance.ShowPendingBadge();
+        }
+    }
+
+    public void CloseMiniInfo()
+    {
+        HideMiniInfo();
+    }
+
+    public void ToggleWasteInfo()
+    {
+        WasteItem waste = PlayerPickup.Instance?.HeldWasteItem;
+
+        if (waste == null)
+            return;
+
+        // Play button click every time F is pressed
+        AudioManager.Instance?.PlayButtonClick();
+
+        bool learned =
+            WasteLearningManager.Instance != null &&
+            WasteLearningManager.Instance.HasLearned(waste.wasteType);
+
+        if (learned)
+        {
+            // Toggle Mini Info
+            if (miniInfoPanel.activeSelf)
+            {
+                HideMiniInfo();
+            }
+            else
+            {
+                ShowMiniInfo(waste);
+            }
+        }
+        else
+        {
+            // Toggle Hint
+            if (hintPanel.activeSelf)
+            {
+                HideHint();
+            }
+            else
+            {
+                ShowHint(waste);
+            }
+        }
+    }
+
+    private void HandleCursorToggle()
+    {
+        if (Keyboard.current == null)
+            return;
+
+        if (!Keyboard.current.escapeKey.wasPressedThisFrame)
+            return;
+
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WasteItem
   itemName: Toothbrush
   category: 2
+  wasteType: 16
   hintImage: {fileID: 21300000, guid: 91aecde9f4d78dc4983d32b5fe1bf8ed, type: 3}
   educationImage: {fileID: 21300000, guid: e870a483fd087cf438c6978d2c5ec412, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 534f96ac67a35dc49adcdf957e5fc7d7, type: 3}
